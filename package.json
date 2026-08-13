@@ -1,0 +1,12 @@
+{
+  "name": "quran-recitation-portal",
+  "version": "2.0.0",
+  "description": "Qur'an Student Recitation Portal with AI Teacher & Email Dispatch",
+  "main": "api/evaluate.js",
+  "scripts": {
+    "start": "python -m http.server 8000"
+  },
+  "dependencies": {
+    "nodemailer": "^6.9.7"
+  }
+}
