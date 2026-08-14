@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Qur'an Student Recitation Portal with AI Teacher</title>
+<title>Qur'an Recitation & Tajweed Learning Platform</title>
 <!-- Tailwind CSS CDN -->
 <script src="https://cdn.tailwindcss.com"></script>
 <script>
@@ -25,11 +25,18 @@ emerald: {
 900: '#064e3b',
 950: '#022c22',
 },
-amber: {
-400: '#fbbf24',
-500: '#f59e0b',
-600: '#d97706',
-950: '#451a03',
+blue: {
+50: '#eff6ff',
+100: '#dbeafe',
+200: '#bfdbfe',
+300: '#93c5fd',
+400: '#60a5fa',
+500: '#3b82f6',
+600: '#2563eb',
+700: '#1d4ed8',
+800: '#1e40af',
+900: '#1e3a8a',
+950: '#0f172a',
 }
 },
 fontFamily: {
@@ -49,127 +56,110 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 .font-arabic { font-family: 'Amiri', serif; }
 </style>
 </head>
-<body id="bodyRoot" class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-950 min-h-screen py-8 px-4 sm:px-6 lg:px-8 text-gray-800 transition-colors duration-300">
+<body id="bodyRoot" class="bg-gradient-to-br from-emerald-50 via-emerald-100/60 to-emerald-50 dark:from-emerald-950 dark:via-emerald-900 dark:to-emerald-950 min-h-screen py-6 px-4 sm:px-6 lg:px-8 text-gray-800 transition-colors duration-300">
 
-<div id="mainCard" class="max-w-4xl mx-auto bg-white dark:bg-slate-900 dark:text-gray-100 rounded-3xl shadow-2xl overflow-hidden border border-emerald-100/50 dark:border-slate-800 transition-all">
+<div id="mainCard" class="max-w-5xl mx-auto bg-white dark:bg-slate-900 dark:text-gray-100 rounded-3xl shadow-2xl overflow-hidden border border-emerald-200 dark:border-slate-800 transition-all">
 
-<!-- Header Banner -->
-<div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-emerald-700 px-6 py-6 text-white relative">
+<!-- HEADER BANNER (EMERALD GREEN THEME WITH OFFICIAL IQRA LOGO) -->
+<div class="bg-gradient-to-r from-emerald-800 via-emerald-700 to-emerald-800 text-white px-6 py-5 relative">
 <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+<div class="flex items-center space-x-3.5">
+<!-- OFFICIAL IQRA BILINGUAL ACADEMY LOGO -->
+<img src="iqra_logo.png" alt="IQRA Bilingual Academy Logo" class="w-14 h-14 sm:w-16 sm:h-16 rounded-full border-2 border-amber-400 bg-white object-contain p-0.5 shadow-lg shrink-0">
 <div>
-<div class="flex items-center space-x-2 mb-2 flex-wrap gap-2">
-<span class="inline-block px-3 py-1 bg-amber-500/20 text-amber-300 border border-amber-400/30 rounded-full text-xs font-bold uppercase tracking-wider">IQRA Bilingual Academy</span>
-<span class="inline-block px-2.5 py-0.5 bg-emerald-600/60 rounded-full text-xs font-semibold text-emerald-100">AI Teacher & Qari Benchmark</span>
+<div class="flex items-center space-x-2 mb-1 flex-wrap gap-1.5">
+<span class="inline-block px-3 py-0.5 bg-blue-500/20 text-blue-200 border border-blue-400/30 rounded-full text-[11px] font-extrabold uppercase tracking-wider">IQRA Bilingual Academy</span>
+<span id="roleBadge" class="inline-block px-2.5 py-0.5 bg-emerald-900/70 rounded-full text-xs font-semibold text-emerald-100">Public Visitor (Listening Mode)</span>
 </div>
-<h1 id="titleHeader" class="text-2xl sm:text-4xl font-extrabold tracking-tight">Qur'an Recitation Portal</h1>
-<p id="subtitleHeader" class="text-emerald-100 text-sm mt-1">Record assignments, compare against Master Qaris, and get AI feedback on strengths & mistakes</p>
+<h1 id="titleHeader" class="text-2xl sm:text-3xl font-extrabold tracking-tight">Qur'an Recitation Platform</h1>
+<p id="subtitleHeader" class="text-emerald-100 text-xs sm:text-sm mt-0.5">Listen to Master Qaris, submit practice recitations, and receive teacher evaluations</p>
+</div>
 </div>
 
-<!-- TOP CONTROLS: THEME TOGGLE & LANGUAGE SELECTOR -->
+<!-- TOP CONTROLS & ROYAL BLUE HIGH-CONTRAST LOGIN CTA -->
 <div class="flex items-center space-x-2 flex-wrap gap-2">
-<!-- Language Selector -->
-<div class="relative">
-<select id="langSelect" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-amber-300 border border-emerald-600/80 rounded-xl px-3 py-1.5 text-xs font-bold outline-none cursor-pointer hover:bg-emerald-900 transition">
-<option value="en">🇺🇸 English</option>
-<option value="ar">🇸🇦 العربية</option>
-<option value="fr">🇫🇷 Français</option>
-</select>
-</div>
+<!-- ROYAL SAPPHIRE BLUE LOGIN BUTTON -->
+<button type="button" onclick="openRoleSelectionModal()" id="btnPracticeCTA" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-blue-600 via-blue-500 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-black text-xs sm:text-sm shadow-xl transition transform active:scale-95 flex items-center space-x-2 cursor-pointer border border-blue-300">
+<i class="fa-solid fa-right-to-bracket text-base text-white"></i>
+<span id="txtPracticeCTA" class="tracking-wide">Login</span>
+</button>
 
-<!-- Dark / Light Mode Toggle -->
-<button type="button" onclick="toggleTheme()" id="themeToggleBtn" class="px-3 py-1.5 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-xs font-bold text-amber-300 border border-emerald-600/80 flex items-center space-x-1.5 transition cursor-pointer">
-<i id="themeIcon" class="fa-solid fa-moon"></i>
+<!-- LOGOUT BUTTON (HIDDEN UNTIL LOGGED IN) -->
+<button type="button" onclick="handleLogout()" id="btnLogout" class="hidden px-3 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-700 text-white font-bold text-xs shadow-lg transition flex items-center space-x-1 cursor-pointer">
+<i class="fa-solid fa-right-from-bracket"></i>
+<span id="txtLogout">Logout</span>
+</button>
+
+<!-- TRILINGUAL LANGUAGE SELECTOR (EN / AR / FR) -->
+<select id="langSelect" onchange="changeLanguage(this.value)" class="bg-emerald-950/80 text-blue-300 border border-emerald-600/80 rounded-xl px-2.5 py-2 text-xs font-bold outline-none cursor-pointer hover:bg-emerald-900 transition">
+<option value="en">🇺🇸 EN</option>
+<option value="ar">🇸🇦 العربية</option>
+<option value="fr">🇫🇷 FR</option>
+</select>
+
+<!-- DARK / LIGHT MODE TOGGLE (DEFAULT LIGHT MODE) -->
+<button type="button" onclick="toggleTheme()" id="themeToggleBtn" class="px-3 py-2 rounded-xl bg-white text-slate-900 border border-emerald-300 shadow-sm hover:bg-emerald-50 text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer">
+<i id="themeIcon" class="fa-solid fa-moon text-blue-600"></i>
 <span id="themeText">Dark Mode</span>
 </button>
 </div>
 </div>
+
+<!-- ROLE NAVIGATION TABS (HIDDEN UNTIL USER LOGS IN) -->
+<div id="roleNavBar" class="hidden mt-4 pt-3 border-t border-emerald-800/60 flex items-center justify-between flex-wrap gap-2 text-xs font-bold">
+<div class="flex items-center space-x-1 sm:space-x-2 overflow-x-auto pb-1 max-w-full">
+<button type="button" onclick="switchTab('publicPlayer')" id="tabPublic" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black transition">
+<i class="fa-solid fa-headphones mr-1"></i> <span id="txtTabPublic">Public Player</span>
+</button>
+<button type="button" onclick="switchTab('learnerStudio')" id="tabLearner" class="hidden px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-200 hover:bg-emerald-800/60 transition">
+<i class="fa-solid fa-microphone mr-1"></i> <span id="txtTabLearner">Learner Practice</span>
+</button>
+<button type="button" onclick="switchTab('learnerHistory')" id="tabHistory" class="hidden px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-200 hover:bg-emerald-800/60 transition">
+<i class="fa-solid fa-history mr-1"></i> <span id="txtTabHistory">My Recitations</span>
+</button>
+<button type="button" onclick="switchTab('teacherStudio')" id="tabTeacher" class="hidden px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-200 hover:bg-emerald-800/60 transition">
+<i class="fa-solid fa-chalkboard-user mr-1"></i> <span id="txtTabTeacher">Teacher Studio</span>
+</button>
+<button type="button" onclick="switchTab('staffStudio')" id="tabStaff" class="hidden px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-200 hover:bg-emerald-800/60 transition">
+<i class="fa-solid fa-user-tie mr-1"></i> <span id="txtTabStaff">Staff Portal</span>
+</button>
+<button type="button" onclick="switchTab('adminDashboard')" id="tabAdmin" class="hidden px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-200 hover:bg-emerald-800/60 transition">
+<i class="fa-solid fa-user-shield mr-1"></i> <span id="txtTabAdmin">Admin & HOD</span>
+</button>
 </div>
 
-<form id="submissionForm" onsubmit="handleFormSubmit(event)" class="p-6 sm:p-8 space-y-6">
-
-<!-- SECTION 1: STUDENT & TEACHER IDENTIFICATION (LOCKED REQUIRED) -->
-<div id="section1Box" class="bg-emerald-50/40 dark:bg-slate-800/60 rounded-2xl p-5 sm:p-6 border-2 border-emerald-200 dark:border-slate-700 space-y-4 transition-all">
-<div class="flex items-center justify-between flex-wrap gap-2">
-<div class="flex items-center space-x-2 text-emerald-900 dark:text-emerald-300 font-bold text-lg">
-<i class="fa-solid fa-user-graduate text-emerald-600"></i>
-<h2 id="sec1Title">1. Student Information (Required to Unlock Portal)</h2>
+<div id="currentUserLabel" class="text-blue-200 font-semibold text-[11px] truncate hidden sm:block">
+<i class="fa-solid fa-user mr-1"></i> <span id="txtGuestLabel">Guest Listener</span>
 </div>
-<span id="sec1StatusBadge" class="text-xs px-3 py-1 bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 rounded-full font-bold border border-amber-300">
-<i class="fa-solid fa-lock mr-1"></i> Complete Section 1
-</span>
+</div>
 </div>
 
-<!-- Row 1: Student Details -->
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+<!-- MAIN VIEW CONTAINERS -->
+<div class="p-6 sm:p-8">
+
+<!-- TAB 1: PUBLIC PLAYER & RECITATION PRACTICE (NO LOGIN REQUIRED FOR LISTENING) -->
+<div id="viewPublicPlayer" class="space-y-6">
+
+<!-- PUBLIC LISTENING NOTICE -->
+<div class="bg-emerald-50 dark:bg-slate-800/70 p-4 rounded-2xl border border-emerald-200 dark:border-slate-700 flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center space-x-3">
+<img src="iqra_logo.png" alt="IQRA Logo" class="w-10 h-10 rounded-full border border-amber-400 bg-white object-contain p-0.5 shadow-sm">
 <div>
-<label id="lblStudentName" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Full Name *</label>
-<input type="text" id="studentName" required oninput="validateSection1()" placeholder="e.g. Mohamed Sy" class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 dark:text-white border border-emerald-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-sm outline-none transition shadow-sm">
+<h3 id="txtPublicTitle" class="font-bold text-sm text-emerald-950 dark:text-emerald-300">Public Quran Player — Listen to Master Qaris</h3>
+<p id="txtPublicSub" class="text-xs text-gray-600 dark:text-gray-400">Select any Surah, Page, or Ayah range to listen to Sheikh Al-Husary, Minshawi, Basfar, or Al-Afasy.</p>
+</div>
+</div>
+<button type="button" onclick="openRoleSelectionModal()" id="txtBtnRoleSelect" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-extrabold rounded-xl transition shadow cursor-pointer">
+<i class="fa-solid fa-right-to-bracket mr-1"></i> Login / Role Selection
+</button>
 </div>
 
-<div>
-<label id="lblStudentId" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Student ID Number *</label>
-<input type="text" id="studentId" required oninput="validateSection1()" placeholder="e.g. STU-1042" class="w-full px-3.5 py-2.5 bg-white dark:bg-slate-900 dark:text-white border border-emerald-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-sm outline-none transition shadow-sm font-medium">
-</div>
-
-<div>
-<label id="lblGrade" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Grade / Level *</label>
-<select id="gradeSelect" required onchange="validateSection1()" class="w-full px-3.5 py-2.5 border border-emerald-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-sm outline-none transition bg-white dark:bg-slate-900 dark:text-white shadow-sm font-medium">
-<option value="">Select Grade...</option>
-<option value="Preschool">Preschool</option>
-<option value="Kindergarten">Kindergarten</option>
-<option value="Grade 1">Grade 1</option>
-<option value="Grade 2">Grade 2</option>
-<option value="Grade 3">Grade 3</option>
-<option value="Grade 4">Grade 4</option>
-<option value="Grade 5">Grade 5</option>
-<option value="Grade 6">Grade 6</option>
-<option value="Grade 7">Grade 7</option>
-<option value="Grade 8">Grade 8</option>
-<option value="Grade 9">Grade 9</option>
-<option value="Grade 10">Grade 10</option>
-<option value="Grade 11">Grade 11</option>
-<option value="Grade 12">Grade 12</option>
-<option value="Adult Learner">Adult Learner</option>
-<option value="Tahfidh Program">Tahfidh Program</option>
-<option value="IEP">IEP</option>
-</select>
-</div>
-
-<div>
-<label id="lblClass" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Class Section *</label>
-<select id="classSelect" required onchange="validateSection1()" class="w-full px-3.5 py-2.5 border border-emerald-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-sm outline-none transition bg-white dark:bg-slate-900 dark:text-white shadow-sm font-medium">
-<option value="">Select Section...</option>
-<option value="Section A">Section A</option>
-<option value="Section B">Section B</option>
-<option value="Section C">Section C</option>
-<option value="Section D">Section D</option>
-<option value="None">None</option>
-</select>
-</div>
-</div>
-
-<!-- Row 2: Assigned Teacher Selection -->
-<div class="pt-2 border-t border-emerald-100 dark:border-slate-700">
-<label id="lblTeacher" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1.5 flex items-center">
-<i class="fa-solid fa-chalkboard-user mr-1.5 text-emerald-600"></i> Assigned Quran Teacher (Audio file will be sent via Email) *
-</label>
-<select id="teacherSelect" required onchange="validateSection1()" class="w-full sm:max-w-md px-3.5 py-2.5 border border-emerald-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-sm outline-none transition bg-white dark:bg-slate-900 dark:text-white shadow-sm font-bold text-emerald-900 dark:text-emerald-300">
-<option value="">Choose Name of Teacher...</option>
-<option value="O. Koulibaly">O. Koulibaly (koulibalyismail@gmail.com)</option>
-<option value="O. Gueye">O. Gueye (aliounepg@gmail.com)</option>
-<option value="O. Fall">O. Fall (iqrabamsarr@gmail.com)</option>
-<option value="O. Mme Ba">O. Mme Ba (KGAYE.IQRABA@gmail.com)</option>
-</select>
-<p id="teacherEmailNotice" class="text-[11px] text-emerald-700 dark:text-emerald-400 mt-1"><i class="fa-solid fa-paper-plane mr-1"></i> Your recorded recitation audio attachment and AI report will be emailed directly to your selected teacher.</p>
-</div>
-</div>
-
-<!-- SECTION 2: SUBMISSION MODE & ASSIGNMENT SELECTION -->
+<!-- SUBMISSION ASSIGNMENT & SELECTION -->
 <div class="bg-emerald-50/40 dark:bg-slate-800/60 rounded-2xl p-5 sm:p-6 border border-emerald-100 dark:border-slate-800 space-y-4">
 <div class="flex items-center justify-between">
-<div class="flex items-center space-x-2 text-emerald-900 dark:text-emerald-300 font-bold text-lg">
+<div class="flex items-center space-x-2 text-emerald-900 dark:text-emerald-300 font-bold text-base sm:text-lg">
 <i class="fa-solid fa-sliders text-emerald-600"></i>
-<h2 id="sec2Title">2. Submission Assignment</h2>
+<h2 id="sec2Title">Select Passage to Listen & Practice</h2>
 </div>
 <span id="modeBadge" class="text-xs px-3 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 rounded-full font-bold">Page Mode</span>
 </div>
@@ -177,14 +167,19 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <div>
 <label id="lblSelectMode" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-2">Select Mode</label>
 <div class="grid grid-cols-2 gap-3">
-<label id="modePageLabel" class="flex items-center justify-center p-3.5 border-2 border-emerald-600 bg-emerald-100/70 dark:bg-emerald-950/80 rounded-xl cursor-pointer transition font-bold text-emerald-900 dark:text-emerald-200 text-sm shadow-sm">
-<input type="radio" name="submissionMode" value="page" checked onchange="handleModeChange()" class="hidden">
+
+<!-- PAGE MODE BUTTON -->
+<button type="button" id="modePageLabel" onclick="selectSubmissionMode('page')" class="flex items-center justify-center p-3.5 border-2 border-emerald-600 bg-emerald-100/90 dark:bg-emerald-950 rounded-xl cursor-pointer transition font-extrabold text-emerald-950 dark:text-emerald-200 text-xs sm:text-sm shadow-md">
+<input type="radio" id="radioModePage" name="submissionMode" value="page" checked class="hidden">
 <i class="fa-solid fa-book-open mr-2 text-emerald-700 dark:text-emerald-400"></i> <span id="lblModePage">Submit by Page</span>
-</label>
-<label id="modeAyahLabel" class="flex items-center justify-center p-3.5 border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl cursor-pointer transition font-bold text-gray-600 dark:text-gray-300 text-sm hover:border-emerald-200">
-<input type="radio" name="submissionMode" value="ayah" onchange="handleModeChange()" class="hidden">
+</button>
+
+<!-- AYAH RANGE MODE BUTTON -->
+<button type="button" id="modeAyahLabel" onclick="selectSubmissionMode('ayah')" class="flex items-center justify-center p-3.5 border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl cursor-pointer transition font-bold text-gray-500 dark:text-gray-400 text-xs sm:text-sm hover:border-emerald-300">
+<input type="radio" id="radioModeAyah" name="submissionMode" value="ayah" class="hidden">
 <i class="fa-solid fa-list-ol mr-2 text-gray-400"></i> <span id="lblModeAyah">Submit by Ayah Range</span>
-</label>
+</button>
+
 </div>
 </div>
 
@@ -192,18 +187,17 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <div id="pageContainer" class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-slate-800 space-y-3">
 <label id="lblPageNum" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Madani Page Number (1 – 604)</label>
 <div class="flex items-center gap-3">
-<button type="button" onclick="stepPage(-1)" class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-800 dark:text-emerald-300 font-bold flex items-center justify-center transition">
+<button type="button" onclick="stepPage(-1)" class="w-12 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg flex items-center justify-center transition shadow cursor-pointer active:scale-95">
 <i class="fa-solid fa-minus"></i>
 </button>
 <div class="relative max-w-xs flex-1">
-<input type="number" id="pageNumber" min="1" max="604" value="1" oninput="updateQuranPreviewText()" class="w-full px-3.5 py-2 border border-emerald-200 dark:border-slate-700 rounded-lg focus:ring-2 focus:ring-emerald-500 text-sm outline-none font-bold text-center dark:bg-slate-900 dark:text-white">
-<span class="absolute right-3 top-2.5 text-xs text-gray-400">Page 1-604</span>
+<input type="number" id="pageNumber" min="1" max="604" value="1" oninput="updateQuranPreviewText()" class="w-full px-4 py-3 border-2 border-emerald-500 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-base outline-none font-extrabold text-center dark:bg-slate-950 dark:text-white">
+<span class="absolute right-3 top-3.5 text-xs text-gray-400 font-bold">Page 1-604</span>
 </div>
-<button type="button" onclick="stepPage(1)" class="w-10 h-10 rounded-lg bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-800 dark:text-emerald-300 font-bold flex items-center justify-center transition">
+<button type="button" onclick="stepPage(1)" class="w-12 h-12 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-lg flex items-center justify-center transition shadow cursor-pointer active:scale-95">
 <i class="fa-solid fa-plus"></i>
 </button>
 </div>
-<p class="text-xs text-emerald-700 dark:text-emerald-400"><i class="fa-solid fa-circle-info mr-1"></i> Previews Quran text and plays reference audio sequentially for Page <span id="pageDisplayNum" class="font-bold">1</span>.</p>
 </div>
 
 <!-- Ayah Range Mode Option -->
@@ -213,11 +207,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <span class="block text-xs font-extrabold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider mb-2"><i class="fa-solid fa-play text-emerald-600 mr-1"></i> Start Point</span>
 <div class="space-y-2">
 <div>
-<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Surah</label>
-<select id="startSurah" onchange="updateQuranPreviewText()" class="w-full px-2.5 py-1.5 border border-gray-300 dark:border-slate-700 rounded-lg text-xs bg-white dark:bg-slate-900 dark:text-white font-semibold"></select>
+<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Surah (All 114 Surahs Available)</label>
+<select id="startSurah" onchange="updateQuranPreviewText()" class="w-full px-2.5 py-2 border border-emerald-300 dark:border-slate-700 rounded-lg text-xs bg-white dark:bg-slate-900 dark:text-white font-bold"></select>
 </div>
 <div>
-<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Ayah Number</label>
+<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Start Ayah Number</label>
 <input type="number" id="startAyah" min="1" value="1" oninput="updateQuranPreviewText()" class="w-full px-2.5 py-1.5 border border-gray-300 dark:border-slate-700 rounded-lg text-xs font-semibold dark:bg-slate-900 dark:text-white">
 </div>
 </div>
@@ -227,11 +221,11 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <span class="block text-xs font-extrabold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider mb-2"><i class="fa-solid fa-flag-checkered text-emerald-600 mr-1"></i> End Point</span>
 <div class="space-y-2">
 <div>
-<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Surah</label>
-<select id="endSurah" onchange="updateQuranPreviewText()" class="w-full px-2.5 py-1.5 border border-gray-300 dark:border-slate-700 rounded-lg text-xs bg-white dark:bg-slate-900 dark:text-white font-semibold"></select>
+<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Surah (All 114 Surahs Available)</label>
+<select id="endSurah" onchange="updateQuranPreviewText()" class="w-full px-2.5 py-2 border border-emerald-300 dark:border-slate-700 rounded-lg text-xs bg-white dark:bg-slate-900 dark:text-white font-bold"></select>
 </div>
 <div>
-<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">Ayah Number</label>
+<label class="text-[11px] font-bold text-gray-600 dark:text-gray-300">End Ayah Number</label>
 <input type="number" id="endAyah" min="1" value="7" oninput="updateQuranPreviewText()" class="w-full px-2.5 py-1.5 border border-gray-300 dark:border-slate-700 rounded-lg text-xs font-semibold dark:bg-slate-900 dark:text-white">
 </div>
 </div>
@@ -239,35 +233,36 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 </div>
 </div>
 
-<!-- DYNAMIC QURAN TEXT PREVIEW BOX -->
-<div class="bg-amber-50/70 dark:bg-slate-800/70 rounded-xl p-4 border border-amber-200 dark:border-slate-700 space-y-2">
+<!-- DYNAMIC FULL QURAN TEXT PREVIEW BOX (BLUE ACCENTS REPLACED PREVIOUS ORANGE) -->
+<div class="bg-blue-50/70 dark:bg-slate-800/70 rounded-2xl p-5 border border-blue-200 dark:border-slate-700 space-y-3">
 <div class="flex items-center justify-between">
-<span id="lblAssignedText" class="text-xs font-extrabold uppercase tracking-wider text-amber-900 dark:text-amber-300 flex items-center">
-<i class="fa-solid fa-book-open-reader mr-2 text-amber-600"></i> Assigned Quranic Text (Uthmani Script)
+<span id="lblAssignedText" class="text-xs font-extrabold uppercase tracking-wider text-blue-900 dark:text-blue-300 flex items-center">
+<i class="fa-solid fa-book-open-reader mr-2 text-blue-600"></i> Quranic Text (Full Uthmani Script — Click Any Ayah Badge to Play)
 </span>
-<span id="quranTextStatus" class="text-[10px] bg-amber-200/80 dark:bg-amber-900 text-amber-900 dark:text-amber-200 px-2.5 py-0.5 rounded-full font-bold">Loaded</span>
+<span id="quranTextStatus" class="text-[11px] bg-blue-200/80 dark:bg-blue-950 text-blue-900 dark:text-blue-200 px-3 py-1 rounded-full font-bold">Loading...</span>
 </div>
-<div id="quranPreviewDisplay" class="font-arabic text-xl sm:text-2xl text-slate-800 dark:text-slate-100 text-right leading-loose p-4 bg-white dark:bg-slate-950 rounded-xl border border-amber-100 dark:border-slate-800 shadow-inner max-h-56 overflow-y-auto" dir="rtl">
-بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ
+<div id="quranPreviewDisplay" class="font-arabic text-2xl sm:text-3xl text-slate-800 dark:text-slate-100 text-right leading-loose p-5 bg-white dark:bg-slate-950 rounded-xl border border-blue-100 dark:border-slate-800 shadow-inner max-h-96 overflow-y-auto min-h-[140px]" dir="rtl">
+<!-- Full real Ayah text loaded dynamically from API -->
 </div>
-</div>
-
 </div>
 
-<!-- SECTION 3: REFERENCE AUDIO (EVERYAYAH BENCHMARK) -->
+</div>
+
+<!-- SECTION 3: REFERENCE AUDIO (EVERYAYAH BENCHMARK & PLAYBACK SPEED & REPEAT/LOOP PASSAGE CONTROLS) -->
 <div class="bg-emerald-50/40 dark:bg-slate-800/60 rounded-2xl p-5 sm:p-6 border border-emerald-100 dark:border-slate-800 space-y-4">
 <div class="flex items-center justify-between flex-wrap gap-2">
-<div class="flex items-center space-x-2 text-emerald-900 dark:text-emerald-300 font-bold text-lg">
+<div class="flex items-center space-x-2 text-emerald-900 dark:text-emerald-300 font-bold text-base sm:text-lg">
 <i class="fa-solid fa-volume-high text-emerald-600"></i>
-<h2 id="sec3Title">3. Master Reciter Benchmark (EveryAyah.com)</h2>
+<h2 id="sec3Title">Master Reciter Reference Model (EveryAyah.com)</h2>
 </div>
 <span id="audioTrackStatus" class="text-xs text-emerald-800 dark:text-emerald-300 bg-emerald-100 dark:bg-emerald-950 border border-emerald-200 dark:border-emerald-800 px-3 py-1 rounded-full font-bold">Ready to Play</span>
 </div>
 
 <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 items-center">
-<div class="sm:col-span-1">
-<label id="lblSelectQari" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Select Master Qari Benchmark</label>
-<select id="reciterSelect" onchange="onReciterChange()" class="w-full px-3 py-2.5 border border-emerald-200 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-xs font-semibold bg-white dark:bg-slate-900 dark:text-white shadow-sm">
+<div class="sm:col-span-1 space-y-2.5">
+<div>
+<label id="lblSelectQari" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase tracking-wider mb-1">Select Reference Reciter</label>
+<select id="reciterSelect" onchange="onReciterChange()" class="w-full px-3 py-2 border border-emerald-300 dark:border-slate-700 rounded-xl focus:ring-2 focus:ring-emerald-500 text-xs font-bold bg-white dark:bg-slate-900 dark:text-white shadow-sm cursor-pointer">
 <option value="Husary_128kbps">Sheikh Al-Husary (Standard Murattal)</option>
 <option value="Husary_Muallim_128kbps">Sheikh Al-Husary (Muallim - Educational)</option>
 <option value="Abdullah_Basfar_192kbps">Sheikh Abdullah Basfar (192kbps)</option>
@@ -276,15 +271,41 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 </select>
 </div>
 
+<!-- Playback Speed Control -->
+<div>
+<label id="lblSpeed" class="block text-[11px] font-bold text-emerald-800 dark:text-emerald-300 uppercase tracking-wider mb-1">Playback Speed</label>
+<div class="flex items-center space-x-1.5">
+<button type="button" id="spd075" onclick="setSpeed(0.75)" class="px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-900 dark:text-emerald-200 rounded-lg text-xs font-bold transition cursor-pointer">0.75x</button>
+<button type="button" id="spd100" onclick="setSpeed(1.0)" class="px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-xs font-extrabold shadow transition cursor-pointer">1.0x</button>
+<button type="button" id="spd125" onclick="setSpeed(1.25)" class="px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-900 dark:text-emerald-200 rounded-lg text-xs font-bold transition cursor-pointer">1.25x</button>
+</div>
+</div>
+
+<!-- REPEAT / LOOP PASSAGE CONTROLS (1x / 3x / 5x / 10x / INFINITE) -->
+<div>
+<label id="lblLoop" class="block text-[11px] font-bold text-blue-800 dark:text-blue-300 uppercase tracking-wider mb-1">
+<i class="fa-solid fa-rotate-right text-blue-600 mr-1"></i> Repeat Passage (Hifz Mode)
+</label>
+<select id="loopSelect" onchange="setLoopMode(this.value)" class="w-full px-2.5 py-1.5 border-2 border-blue-400 dark:border-blue-700 rounded-xl text-xs font-extrabold bg-blue-50 dark:bg-slate-900 text-blue-950 dark:text-blue-200 cursor-pointer shadow-sm">
+<option value="1">Play Once (1x - No Loop)</option>
+<option value="3">Repeat 3 Times (3x)</option>
+<option value="5">Repeat 5 Times (5x)</option>
+<option value="10">Repeat 10 Times (10x)</option>
+<option value="infinite">Repeat Infinitely (∞ Loop)</option>
+</select>
+</div>
+
+</div>
+
 <div class="sm:col-span-2 space-y-2">
 <div id="audioControlsBox" class="bg-white dark:bg-slate-900 p-3 rounded-xl border border-emerald-200 dark:border-slate-800 shadow-sm flex flex-col space-y-2">
 <div class="flex items-center justify-between">
 <span id="trackLabel" class="text-xs font-bold text-emerald-900 dark:text-emerald-300 truncate">Surah 1:1 (Track 1 of 7)</span>
 <div class="flex items-center space-x-1">
-<button type="button" onclick="prevTrack()" class="px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-800 dark:text-emerald-300 rounded text-xs font-bold transition">
+<button type="button" onclick="prevTrack()" class="px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-800 dark:text-emerald-300 rounded text-xs font-bold transition cursor-pointer">
 <i class="fa-solid fa-backward-step"></i>
 </button>
-<button type="button" onclick="nextTrack()" class="px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-800 dark:text-emerald-300 rounded text-xs font-bold transition">
+<button type="button" onclick="nextTrack()" class="px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-800 dark:text-emerald-300 rounded text-xs font-bold transition cursor-pointer">
 <i class="fa-solid fa-forward-step"></i>
 </button>
 </div>
@@ -292,40 +313,60 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <audio id="referenceAudioPlayer" controls class="w-full h-10 rounded-lg"></audio>
 </div>
 
-<button type="button" id="refPlayBtn" onclick="playReferenceAudio()" class="w-full py-3 px-4 bg-emerald-700 hover:bg-emerald-800 text-white rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2 shadow-md">
-<i class="fa-solid fa-circle-play text-base"></i>
-<span id="refPlayText">Listen to Master Reciter</span>
+<!-- BIG EMERALD GREEN PLAY BUTTON -->
+<button type="button" id="refPlayBtn" onclick="playReferenceAudio()" class="w-full py-3.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold rounded-xl text-xs sm:text-sm transition flex items-center justify-center space-x-2 shadow-lg cursor-pointer">
+<i id="refPlayIcon" class="fa-solid fa-circle-play text-base"></i>
+<span id="refPlayText">Listen to Master Reciter (Continuous Play)</span>
 </button>
 </div>
 </div>
 </div>
 
-<!-- SECTION 4: STUDENT AUDIO RECORDING (LOCKED UNTIL SECTION 1 COMPLETE) -->
-<div id="section4Box" class="bg-gradient-to-br from-emerald-950 to-emerald-900 text-white rounded-2xl p-6 sm:p-7 shadow-xl space-y-4 border border-emerald-800 transition-all opacity-60">
+</div>
+
+<!-- TAB 2: LEARNER PRACTICE STUDIO & RECORDING WORKFLOW -->
+<div id="viewLearnerStudio" class="hidden space-y-6">
+
+<!-- ACTIVE PROFILE SUMMARY -->
+<div class="bg-emerald-50/70 dark:bg-slate-800/80 p-4 rounded-2xl border-2 border-emerald-500 flex items-center justify-between flex-wrap gap-3">
+<div class="flex items-center space-x-3">
+<div class="w-11 h-11 rounded-full bg-emerald-700 text-blue-300 flex items-center justify-center font-black text-lg shadow-md">
+<span id="profileInitial">M</span>
+</div>
+<div>
+<div class="flex items-center space-x-2">
+<h3 id="activeStudentName" class="font-extrabold text-base text-emerald-950 dark:text-emerald-300">Mohamed Sy</h3>
+<span id="activeLevelBadge" class="text-[10px] px-2.5 py-0.5 bg-blue-600 text-white font-bold rounded-full uppercase">Intermediate Level</span>
+</div>
+<p id="activeStudentDetails" class="text-xs text-gray-600 dark:text-gray-400">ID: STU-1042 | Grade 5 - Section A | Teacher: O. Koulibaly</p>
+</div>
+</div>
+
+<button type="button" onclick="openRoleSelectionModal()" id="btnSwitchRole" class="text-xs px-3 py-1.5 bg-slate-800 hover:bg-slate-700 text-blue-300 font-bold rounded-xl border border-slate-600 transition cursor-pointer">
+<i class="fa-solid fa-user-pen mr-1"></i> Switch Role / Profile
+</button>
+</div>
+
+<!-- RECORD RECITATION WORKFLOW -->
+<div class="bg-gradient-to-br from-emerald-950 to-emerald-900 text-white rounded-2xl p-6 sm:p-7 shadow-xl space-y-4 border border-emerald-800">
 <div class="flex items-center justify-between border-b border-emerald-800/80 pb-3 flex-wrap gap-2">
 <div class="flex items-center space-x-2">
 <i class="fa-solid fa-microphone text-emerald-400 text-xl"></i>
-<h2 id="sec4Title" class="font-bold text-lg">4. Record Recitation</h2>
+<h2 id="sec4Title" class="font-bold text-lg">Record Your Practice Recitation</h2>
 </div>
-<div class="flex items-center space-x-1.5 text-xs text-amber-300 bg-amber-950/60 border border-amber-500/40 px-3 py-1 rounded-full font-bold">
+<div class="flex items-center space-x-1.5 text-xs text-blue-300 bg-blue-950/60 border border-blue-500/40 px-3 py-1 rounded-full font-bold">
 <i class="fa-regular fa-clock"></i>
-<span>Limit: 5 Minutes (05:00) Max</span>
+<span id="lblTimeLimit">Limit: 5 Minutes (05:00) Max</span>
 </div>
 </div>
 
-<!-- Lock Alert Notice -->
-<div id="recordLockNotice" class="bg-amber-500/20 border border-amber-400/40 p-3 rounded-xl text-xs text-amber-200 font-bold flex items-center space-x-2">
-<i class="fa-solid fa-lock text-amber-400 text-base"></i>
-<span id="msgLockNotice">🔒 Please complete your Name, Student ID, Grade, Section, and Teacher in Section 1 to unlock recording.</span>
-</div>
-
-<p id="recInstructions" class="text-xs text-emerald-200 leading-relaxed">Click the record button to start. The recording will automatically stop when the 5-minute timer reaches 05:00.</p>
+<p id="recInstructions" class="text-xs text-emerald-200 leading-relaxed">Listen to the Master Qari above, then click Record when ready. Your assigned teacher will evaluate your recitation.</p>
 
 <!-- Record Button Container -->
 <div class="flex flex-col items-center justify-center py-4 space-y-3">
-<button type="button" id="recordBtn" disabled onclick="toggleRecording()" class="w-20 h-20 rounded-full bg-gray-600 text-white flex flex-col items-center justify-center shadow-2xl border-4 border-gray-700 cursor-not-allowed opacity-50 transition">
+<button type="button" id="recordBtn" onclick="toggleRecording()" class="w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 text-white flex flex-col items-center justify-center shadow-2xl border-4 border-emerald-800 cursor-pointer transition">
 <i id="recordIcon" class="fa-solid fa-microphone text-2xl"></i>
-<span id="recordStatusText" class="text-[10px] uppercase font-bold mt-1 tracking-wider">Locked</span>
+<span id="recordStatusText" class="text-[10px] uppercase font-bold mt-1 tracking-wider">Record</span>
 </button>
 
 <!-- Timer Display -->
@@ -336,7 +377,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 
 <!-- Visual Progress Bar -->
 <div class="w-full bg-emerald-950 rounded-full h-3 overflow-hidden border border-emerald-800/80 shadow-inner">
-<div id="recordingProgress" class="bg-gradient-to-r from-emerald-400 to-amber-400 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
+<div id="recordingProgress" class="bg-gradient-to-r from-emerald-400 to-blue-400 h-3 rounded-full transition-all duration-300" style="width: 0%"></div>
 </div>
 </div>
 
@@ -345,174 +386,460 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <label id="lblReviewRec" class="block text-xs font-bold text-emerald-300 mb-2">Review Your Recording Before Submitting:</label>
 <audio id="studentAudioPlayer" controls class="w-full h-10 rounded-lg"></audio>
 </div>
+
+<!-- SUBMIT BUTTON -->
+<div class="pt-2">
+<button type="button" onclick="submitRecitationToTeacher()" id="submitBtn" class="w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-extrabold text-lg shadow-xl transition flex items-center justify-center space-x-3 cursor-pointer">
+<i class="fa-solid fa-paper-plane text-xl"></i>
+<span id="submitBtnText">Submit Recording to Teacher</span>
+</button>
+</div>
 </div>
 
-<!-- SUBMIT BUTTON (LOCKED UNTIL SECTION 1 COMPLETE) -->
-<div class="pt-2">
-<button type="submit" id="submitBtn" disabled class="w-full py-4 bg-gray-500 text-gray-300 rounded-2xl font-extrabold text-lg shadow-xl transition flex items-center justify-center space-x-3 cursor-not-allowed opacity-50">
-<i class="fa-solid fa-paper-plane text-xl"></i>
-<span id="submitBtnText">Complete Section 1 to Enable Submit</span>
+<!-- POST-SUBMISSION TAJWEED EDUCATIONAL TIPS (BLUE ACCENTS REPLACED PREVIOUS ORANGE) -->
+<div id="tajweedTipsPanel" class="hidden bg-slate-900 text-white rounded-2xl p-6 border-2 border-emerald-500 space-y-4">
+<div class="flex items-center justify-between border-b border-slate-800 pb-3 flex-wrap gap-2">
+<div class="flex items-center space-x-2">
+<i class="fa-solid fa-book-bookmark text-blue-400 text-xl"></i>
+<h3 id="txtTipsTitle" class="font-bold text-lg text-blue-300">Level-Based Tajweed Reference Tips</h3>
+</div>
+<span id="txtEduBadge" class="text-xs bg-emerald-950 text-emerald-300 border border-emerald-600 px-3 py-1 rounded-full font-bold">Educational Reference</span>
+</div>
+
+<!-- CLEAR DISCLAIMER BANNER (BLUE ACCENT) -->
+<div class="bg-blue-950/60 border border-blue-500/40 p-3 rounded-xl text-xs text-blue-200 font-semibold flex items-start space-x-2">
+<i class="fa-solid fa-circle-info text-blue-400 text-base mt-0.5"></i>
+<div>
+<strong id="txtTipsDisclaimerTitle" class="block font-bold text-blue-300">Educational Learning Tips (Not an AI Assessment)</strong>
+<span id="txtTipsDisclaimerBody">These Tajweed tips are general educational rules for your assigned level to help you practice with the Master Qari. Your teacher will evaluate your specific recording and provide official feedback.</span>
+</div>
+</div>
+
+<!-- TIP CARDS CONTAINER -->
+<div id="tajweedTipsList" class="space-y-3">
+<!-- Populated dynamically based on Learner Level (Beginner / Intermediate / Advanced) -->
+</div>
+
+</div>
+
+</div>
+
+<!-- TAB 3: LEARNER RECITATION HISTORY ("MY RECITATIONS") -->
+<div id="viewLearnerHistory" class="hidden space-y-6">
+<div class="flex items-center justify-between border-b border-gray-200 dark:border-slate-800 pb-4">
+<div>
+<h2 id="txtHistoryTitle" class="text-xl font-extrabold text-emerald-950 dark:text-emerald-300">My Recitation History</h2>
+<p id="txtHistorySub" class="text-xs text-gray-500 dark:text-gray-400">View your submitted recordings, official teacher evaluations, and teacher voice notes</p>
+</div>
+<button type="button" onclick="switchTab('learnerStudio')" id="btnNewAttempt" class="px-3.5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-xs font-bold rounded-xl transition cursor-pointer">
+<i class="fa-solid fa-plus mr-1"></i> New Practice Attempt
 </button>
 </div>
 
-</form>
-
-<!-- AI TEACHER EVALUATION RESULT PANEL -->
-<div id="aiTeacherResultPanel" class="hidden p-6 sm:p-8 bg-slate-900 text-white border-t-4 border-emerald-500 space-y-5">
-<div class="flex items-center justify-between border-b border-slate-800 pb-4 flex-wrap gap-3">
-<div class="flex items-center space-x-3">
-<div class="w-12 h-12 rounded-xl bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shadow-md">
-<i class="fa-solid fa-graduation-cap text-2xl"></i>
+<!-- HISTORY CARDS CONTAINER -->
+<div id="historyListContainer" class="space-y-4">
+<!-- Populated dynamically -->
 </div>
+</div>
+
+<!-- TAB 4: TEACHER DASHBOARD & REVIEW STUDIO -->
+<div id="viewTeacherStudio" class="hidden space-y-6">
+<div class="bg-gradient-to-r from-slate-900 to-slate-800 text-white p-6 rounded-2xl border border-slate-700 flex items-center justify-between flex-wrap gap-4">
 <div>
-<h3 id="reportTitle" class="font-extrabold text-xl text-emerald-400">AI Teacher & Qari Benchmark Report</h3>
-<p id="emailDispatchNotice" class="text-xs text-emerald-400 font-semibold">Audio emailed to assigned teacher</p>
+<span id="txtTeacherHeaderTag" class="text-xs font-bold text-blue-400 uppercase tracking-wider">Teacher Review Studio</span>
+<h2 id="teacherDashboardName" class="text-2xl font-extrabold text-emerald-400">O. Koulibaly's Assigned Learners</h2>
+<p id="txtTeacherHeaderSub" class="text-xs text-slate-300 mt-1">Review student recitations, assign 🟢/🟡/🔴 evaluation flags, and record voice feedback</p>
 </div>
-</div>
-<div class="text-right bg-slate-800 px-4 py-2 rounded-xl border border-slate-700">
-<span id="aiScoreBadge" class="text-3xl font-black text-amber-400">92%</span>
-<span id="lblOverallScore" class="block text-[10px] text-slate-400 uppercase font-bold tracking-wider">Overall Score</span>
+
+<div class="flex items-center space-x-2">
+<select id="teacherSelectRole" onchange="switchTeacherAccount(this.value)" class="bg-slate-950 text-blue-300 border border-slate-600 rounded-xl px-3 py-2 text-xs font-bold">
+<option value="O. Koulibaly">O. Koulibaly (koulibalyismail@gmail.com)</option>
+<option value="O. Gueye">O. Gueye (aliounepg@gmail.com)</option>
+<option value="O. Fall">O. Fall (iqrabamsarr@gmail.com)</option>
+<option value="O. Mme Ba">O. Mme Ba (KGAYE.IQRABA@gmail.com)</option>
+</select>
 </div>
 </div>
 
-<!-- CARD 1: MEMORIZATION CHECK -->
-<div class="bg-slate-800/90 rounded-2xl p-5 border border-slate-700 space-y-2">
-<h4 id="card1Title" class="text-xs font-bold uppercase text-emerald-400 tracking-wider flex items-center">
-<i class="fa-solid fa-brain mr-2"></i> Memorization Check (Hifz Accuracy)
-</h4>
-<div id="aiMemorizationStatus" class="text-sm text-slate-200 font-semibold leading-relaxed">Checking recitation...</div>
+<!-- SUBMISSION REVIEW QUEUE -->
+<div class="bg-white dark:bg-slate-900 p-6 rounded-2xl border border-emerald-100 dark:border-slate-800 space-y-4">
+<h3 id="txtInboxTitle" class="font-bold text-base text-emerald-950 dark:text-emerald-300 flex items-center">
+<i class="fa-solid fa-inbox text-emerald-600 mr-2"></i> Student Submissions Inbox
+</h3>
+
+<div id="teacherInboxList" class="space-y-4">
+<!-- Submissions list -->
+</div>
+</div>
 </div>
 
-<!-- CARD 2: STUDENT STRENGTHS -->
-<div class="bg-slate-800/90 rounded-2xl p-5 border border-emerald-900/80 space-y-2">
-<h4 id="card2Title" class="text-xs font-bold uppercase text-emerald-400 tracking-wider flex items-center">
-<i class="fa-solid fa-circle-check mr-2 text-emerald-400"></i> Student Strengths & Excellent Points
-</h4>
-<div id="aiStudentStrengths" class="text-sm text-emerald-200 font-mono whitespace-pre-line leading-relaxed">Analyzing strengths...</div>
+<!-- TAB 5: STAFF PORTAL (SELF-RECORDING) -->
+<div id="viewStaffStudio" class="hidden space-y-6">
+<div class="bg-emerald-50 dark:bg-slate-800/80 p-6 rounded-2xl border border-emerald-200 dark:border-slate-700 space-y-4">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div>
+<span id="txtStaffTag" class="text-xs font-bold text-emerald-700 dark:text-emerald-400 uppercase">Staff Recitation Portal</span>
+<h2 id="txtStaffTitle" class="text-xl font-extrabold text-emerald-950 dark:text-emerald-200">Staff Self-Recording Practice</h2>
+<p id="txtStaffSub" class="text-xs text-gray-600 dark:text-gray-300">Staff members record audio for themselves and submit to permitted teachers within their gender group.</p>
+</div>
+<select id="staffGenderSelect" onchange="filterStaffTeachers()" class="bg-white dark:bg-slate-900 border border-emerald-300 dark:border-slate-700 rounded-xl px-3 py-1.5 text-xs font-bold">
+<option value="male">Male Staff (Sends to Male Teachers)</option>
+<option value="female">Female Staff (Sends to Female Teachers)</option>
+</select>
 </div>
 
-<!-- CARD 3: RECITATION ERRORS & CORRECTIONS -->
-<div class="bg-slate-800/90 rounded-2xl p-5 border border-rose-900/80 space-y-2">
-<h4 id="card3Title" class="text-xs font-bold uppercase text-amber-400 tracking-wider flex items-center">
-<i class="fa-solid fa-triangle-exclamation mr-2 text-amber-400"></i> Recitation Errors & Corrective Advice
-</h4>
-<div id="aiRecitationMistakes" class="text-sm text-rose-200 bg-slate-950/80 p-4 rounded-xl border border-rose-900/60 font-mono whitespace-pre-line leading-relaxed">Checking errors...</div>
+<div class="pt-2 border-t border-emerald-200 dark:border-slate-700">
+<label id="lblStaffTeacher" class="block text-xs font-bold text-emerald-900 dark:text-emerald-300 uppercase mb-1">Select Permitted Recipient Teacher</label>
+<select id="staffTeacherSelect" class="w-full sm:max-w-md px-3.5 py-2.5 border border-emerald-300 dark:border-slate-700 rounded-xl text-sm font-bold bg-white dark:bg-slate-900 dark:text-white">
+<option value="O. Koulibaly">O. Koulibaly (Male Teacher)</option>
+<option value="O. Gueye">O. Gueye (Male Teacher)</option>
+<option value="O. Fall">O. Fall (Male Teacher)</option>
+</select>
+</div>
+</div>
 </div>
 
-<!-- CARD 4: MASTER QARI BENCHMARK COMPARISON -->
-<div class="bg-slate-800/90 rounded-2xl p-5 border border-purple-900/80 space-y-2">
-<h4 id="card4Title" class="text-xs font-bold uppercase text-purple-400 tracking-wider flex items-center">
-<i class="fa-solid fa-sliders mr-2 text-purple-400"></i> Master Qari Benchmark Comparison
-</h4>
-<div id="aiQariComparison" class="text-sm text-purple-200 bg-slate-950/80 p-4 rounded-xl border border-purple-900/60 font-mono whitespace-pre-line leading-relaxed">Comparing rhythm & pace against Qari...</div>
+<!-- TAB 6: ADMIN & HOD DASHBOARD -->
+<div id="viewAdminDashboard" class="hidden space-y-6">
+<div class="bg-slate-900 text-white p-6 rounded-2xl border border-slate-700 space-y-4">
+<div class="flex items-center justify-between flex-wrap gap-2">
+<div>
+<span id="txtAdminTag" class="text-xs font-bold text-blue-400 uppercase">Super Admin & HOD System</span>
+<h2 id="txtAdminTitle" class="text-2xl font-extrabold text-emerald-400">School Learner Database & Account Security</h2>
+<p id="txtAdminSub" class="text-xs text-slate-300">Manage pre-loaded student profiles, reset user passwords, and view system analytics.</p>
+</div>
+
+<div class="flex items-center space-x-2">
+<button type="button" onclick="alert('Password reset token generated by Admin.')" id="btnAdminReset" class="px-3.5 py-2 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl shadow transition cursor-pointer">
+<i class="fa-solid fa-key mr-1"></i> Admin Password Reset
+</button>
+</div>
+</div>
+
+<!-- PRE-LOADED LEARNER DATABASE TABLE -->
+<div class="overflow-x-auto border border-slate-800 rounded-xl">
+<table class="w-full text-left text-xs text-slate-200">
+<thead class="bg-slate-950 text-slate-400 uppercase text-[10px] font-bold">
+<tr>
+<th class="p-3">Student Number</th>
+<th class="p-3">Full Name</th>
+<th class="p-3">Grade & Section</th>
+<th class="p-3">Quran Group</th>
+<th class="p-3">Assigned Teacher</th>
+<th class="p-3">Account Status</th>
+<th class="p-3">Actions</th>
+</tr>
+</thead>
+<tbody id="adminLearnerTable" class="divide-y divide-slate-800">
+<!-- Dynamic rows -->
+</tbody>
+</table>
+</div>
+</div>
 </div>
 
 </div>
 
+</div>
+
+<!-- STEP 1: ROLE SELECTION MODAL WITH OFFICIAL IQRA LOGO -->
+<div id="roleSelectionModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-3xl max-w-lg w-full p-6 sm:p-8 shadow-2xl border border-emerald-500 space-y-6 relative">
+<button type="button" onclick="closeRoleSelectionModal()" class="absolute right-5 top-5 text-gray-400 hover:text-gray-600 dark:hover:text-white text-lg cursor-pointer">
+<i class="fa-solid fa-xmark"></i>
+</button>
+
+<div class="text-center space-y-2">
+<!-- OFFICIAL IQRA LOGO IN MODAL -->
+<img src="iqra_logo.png" alt="IQRA Bilingual Academy Logo" class="w-20 h-20 rounded-full border-2 border-amber-400 bg-white object-contain p-1 mx-auto shadow-xl">
+<h3 id="txtModalWelcome" class="text-2xl font-extrabold text-emerald-950 dark:text-emerald-300">Welcome to IQRA Portal</h3>
+<p id="txtModalQuestion" class="text-xs text-gray-500 dark:text-gray-400 font-semibold">Are you logging in as a Student, Teacher, Head of Department, or Admin?</p>
+</div>
+
+<!-- 4 ROLE CHOICE CARDS -->
+<div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+
+<!-- CARD 1: STUDENT -->
+<button type="button" onclick="selectRoleChoice('student')" class="p-4 bg-emerald-50/70 hover:bg-emerald-100/90 dark:bg-slate-800 dark:hover:bg-slate-700/80 border-2 border-emerald-500 rounded-2xl text-left transition space-y-1 cursor-pointer group shadow-sm">
+<div class="flex items-center justify-between">
+<i class="fa-solid fa-graduation-cap text-2xl text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-extrabold uppercase px-2 py-0.5 bg-emerald-600 text-white rounded-full">Learner</span>
+</div>
+<h4 id="roleTitleStudent" class="font-extrabold text-sm text-emerald-950 dark:text-emerald-200">Student / Learner</h4>
+<p id="roleDescStudent" class="text-[11px] text-gray-600 dark:text-gray-400">Activate profile with Student Number & record practice</p>
+</button>
+
+<!-- CARD 2: TEACHER -->
+<button type="button" onclick="selectRoleChoice('teacher')" class="p-4 bg-emerald-50/70 hover:bg-emerald-100/90 dark:bg-slate-800 dark:hover:bg-slate-700/80 border-2 border-emerald-500/40 rounded-2xl text-left transition space-y-1 cursor-pointer group shadow-sm">
+<div class="flex items-center justify-between">
+<i class="fa-solid fa-chalkboard-user text-2xl text-blue-500 group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-extrabold uppercase px-2 py-0.5 bg-blue-600 text-white rounded-full">Teacher</span>
+</div>
+<h4 id="roleTitleTeacher" class="font-extrabold text-sm text-emerald-950 dark:text-emerald-200">Quran Teacher</h4>
+<p id="roleDescTeacher" class="text-[11px] text-gray-600 dark:text-gray-400">Review student recitations & give voice feedback</p>
+</button>
+
+<!-- CARD 3: HEAD OF DEPARTMENT (HOD) -->
+<button type="button" onclick="selectRoleChoice('hod')" class="p-4 bg-emerald-50/70 hover:bg-emerald-100/90 dark:bg-slate-800 dark:hover:bg-slate-700/80 border-2 border-emerald-500/40 rounded-2xl text-left transition space-y-1 cursor-pointer group shadow-sm">
+<div class="flex items-center justify-between">
+<i class="fa-solid fa-user-tie text-2xl text-purple-400 group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-extrabold uppercase px-2 py-0.5 bg-purple-600 text-white rounded-full">HOD</span>
+</div>
+<h4 id="roleTitleHOD" class="font-extrabold text-sm text-emerald-950 dark:text-emerald-200">Head of Department</h4>
+<p id="roleDescHOD" class="text-[11px] text-gray-600 dark:text-gray-400">Academic oversight & teacher review monitoring</p>
+</button>
+
+<!-- CARD 4: SUPER ADMIN -->
+<button type="button" onclick="selectRoleChoice('admin')" class="p-4 bg-emerald-50/70 hover:bg-emerald-100/90 dark:bg-slate-800 dark:hover:bg-slate-700/80 border-2 border-emerald-500/40 rounded-2xl text-left transition space-y-1 cursor-pointer group shadow-sm">
+<div class="flex items-center justify-between">
+<i class="fa-solid fa-user-shield text-2xl text-rose-500 group-hover:scale-110 transition-transform"></i>
+<span class="text-[10px] font-extrabold uppercase px-2 py-0.5 bg-rose-600 text-white rounded-full">Admin</span>
+</div>
+<h4 id="roleTitleAdmin" class="font-extrabold text-sm text-emerald-950 dark:text-emerald-200">Super Admin</h4>
+<p id="roleDescAdmin" class="text-[11px] text-gray-600 dark:text-gray-400">User roster management & password resets</p>
+</button>
+
+</div>
+</div>
+</div>
+
+<!-- STEP 2: STUDENT ACTIVATION / LOGIN MODAL -->
+<div id="authModal" class="hidden fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+<div class="bg-white dark:bg-slate-900 text-slate-900 dark:text-white rounded-3xl max-w-md w-full p-6 sm:p-7 shadow-2xl border border-emerald-500 space-y-5 relative">
+<button type="button" onclick="closeAuthModal()" class="absolute right-5 top-5 text-gray-400 hover:text-gray-600 dark:hover:text-white text-lg cursor-pointer">
+<i class="fa-solid fa-xmark"></i>
+</button>
+
+<div class="text-center space-y-1">
+<img src="iqra_logo.png" alt="IQRA Logo" class="w-14 h-14 rounded-full border border-amber-400 bg-white object-contain p-0.5 mx-auto shadow-md">
+<h3 id="txtAuthModalTitle" class="text-xl font-extrabold text-emerald-950 dark:text-emerald-300">Activate / Log In to Student Profile</h3>
+<p id="txtAuthModalSub" class="text-xs text-gray-500 dark:text-gray-400">Enter your unique Student Number provided by IQRA Academy</p>
+</div>
+
+<form onsubmit="handleAccountActivation(event)" class="space-y-4">
+<div>
+<label id="lblStudentNum" class="block text-xs font-bold uppercase tracking-wider mb-1 text-emerald-900 dark:text-emerald-300">Student / Learner Number *</label>
+<input type="text" id="inputStudentNumber" required placeholder="e.g. STU-1042" class="w-full px-3.5 py-2.5 border border-emerald-300 dark:border-slate-700 rounded-xl text-sm font-bold bg-white dark:bg-slate-950 dark:text-white focus:ring-2 focus:ring-emerald-500 outline-none">
+</div>
+
+<div>
+<label id="lblLevel" class="block text-xs font-bold uppercase tracking-wider mb-1 text-emerald-900 dark:text-emerald-300">Select Recitation Level *</label>
+<select id="inputLearnerLevel" required class="w-full px-3.5 py-2.5 border border-emerald-300 dark:border-slate-700 rounded-xl text-sm font-bold bg-white dark:bg-slate-950 dark:text-white">
+<option value="Beginner">Beginner (Basics & Foundational Rules)</option>
+<option value="Intermediate" selected>Intermediate (Tajweed & Fluency)</option>
+<option value="Advanced">Advanced (Detailed Technical Feedback)</option>
+</select>
+</div>
+
+<div>
+<label id="lblPassword" class="block text-xs font-bold uppercase tracking-wider mb-1 text-emerald-900 dark:text-emerald-300">Create Password / PIN *</label>
+<input type="password" id="inputPassword" required placeholder="••••••••" class="w-full px-3.5 py-2.5 border border-emerald-300 dark:border-slate-700 rounded-xl text-sm bg-white dark:bg-slate-950 dark:text-white">
+</div>
+
+<button type="submit" id="btnActivateSubmit" class="w-full py-3.5 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold rounded-xl text-sm shadow-lg transition cursor-pointer">
+<i class="fa-solid fa-circle-check mr-1"></i> Activate & Launch Student Studio
+</button>
+</form>
+</div>
 </div>
 
 <!-- JAVASCRIPT LOGIC -->
 <script>
-// MULTILINGUAL DICTIONARY (English, Arabic, French)
 const I18N = {
 en: {
-titleHeader: "Qur'an Recitation Portal",
-subtitleHeader: "Record assignments, compare against Master Qaris, and get AI feedback on strengths & mistakes",
-sec1Title: "1. Student Information (Required to Unlock Portal)",
-sec1Locked: "🔒 Complete Section 1",
-sec1Unlocked: "✅ Section 1 Complete",
-lblStudentName: "Full Name *",
-lblStudentId: "Student ID Number *",
-lblGrade: "Grade / Level *",
-lblClass: "Class Section *",
-lblTeacher: "Assigned Quran Teacher (Audio file will be sent via Email) *",
-sec2Title: "2. Submission Assignment",
+titleHeader: "Qur'an Recitation Platform",
+subtitleHeader: "Listen to Master Qaris, submit practice recitations, and receive teacher evaluations",
+txtPracticeCTA: "Login",
+txtTabPublic: "Public Player",
+txtTabLearner: "Learner Practice",
+txtTabHistory: "My Recitations",
+txtTabTeacher: "Teacher Studio",
+txtTabStaff: "Staff Portal",
+txtTabAdmin: "Admin & HOD",
+txtGuestLabel: "Guest Listener",
+txtPublicTitle: "Public Quran Player — Listen to Master Qaris",
+txtPublicSub: "Select any Surah, Page, or Ayah range to listen to Sheikh Al-Husary, Minshawi, Basfar, or Al-Afasy.",
+txtBtnRoleSelect: "Login / Role Selection",
+sec2Title: "Select Passage to Listen & Practice",
 lblSelectMode: "Select Mode",
 lblModePage: "Submit by Page",
 lblModeAyah: "Submit by Ayah Range",
 lblPageNum: "Madani Page Number (1 – 604)",
-lblAssignedText: "Assigned Quranic Text (Uthmani Script)",
-sec3Title: "3. Master Reciter Benchmark (EveryAyah.com)",
-lblSelectQari: "Select Master Qari Benchmark",
+lblAssignedText: "Quranic Text (Full Uthmani Script — Click Any Ayah Badge to Play)",
+sec3Title: "Master Reciter Reference Model (EveryAyah.com)",
+lblSelectQari: "Select Reference Reciter",
+lblSpeed: "Playback Speed",
 refPlayText: "Listen to Master Reciter",
-sec4Title: "4. Record Recitation",
-msgLockNotice: "🔒 Please complete your Name, Student ID, Grade, Section, and Teacher in Section 1 to unlock recording.",
-recInstructions: "Click the record button to start. The recording will automatically stop when the 5-minute timer reaches 05:00.",
+btnSwitchRole: "Switch Role / Profile",
+sec4Title: "Record Your Practice Recitation",
+lblTimeLimit: "Limit: 5 Minutes (05:00) Max",
+recInstructions: "Listen to the Master Qari above, then click Record when ready. Your assigned teacher will evaluate your recitation.",
 lblReviewRec: "Review Your Recording Before Submitting:",
-submitBtnLocked: "Complete Section 1 to Enable Submit",
-submitBtnUnlocked: "Submit Recording to Teacher & AI",
-reportTitle: "AI Teacher & Qari Benchmark Report",
-lblOverallScore: "Overall Score",
-card1Title: "Memorization Check (Hifz Accuracy)",
-card2Title: "Student Strengths & Excellent Points 💪",
-card3Title: "Recitation Errors & Corrective Advice ⚠️",
-card4Title: "Master Qari Benchmark Comparison 🎙️"
+submitBtnText: "Submit Recording to Teacher",
+txtTipsTitle: "Level-Based Tajweed Reference Tips",
+txtEduBadge: "Educational Reference",
+txtTipsDisclaimerTitle: "Educational Learning Tips (Not an AI Assessment)",
+txtTipsDisclaimerBody: "These Tajweed tips are general educational rules for your assigned level to help you practice with the Master Qari. Your teacher will evaluate your specific recording and provide official feedback.",
+txtHistoryTitle: "My Recitation History",
+txtHistorySub: "View your submitted recordings, official teacher evaluations, and teacher voice notes",
+btnNewAttempt: "New Practice Attempt",
+txtTeacherHeaderTag: "Teacher Review Studio",
+txtTeacherHeaderSub: "Review student recitations, assign 🟢/🟡/🔴 evaluation flags, and record voice feedback",
+txtInboxTitle: "Student Submissions Inbox",
+txtStaffTag: "Staff Recitation Portal",
+txtStaffTitle: "Staff Self-Recording Practice",
+txtStaffSub: "Staff members record audio for themselves and submit to permitted teachers within their gender group.",
+lblStaffTeacher: "Select Permitted Recipient Teacher",
+txtAdminTag: "Super Admin & HOD System",
+txtAdminTitle: "School Learner Database & Account Security",
+txtAdminSub: "Manage pre-loaded student profiles, reset user passwords, and view system analytics.",
+btnAdminReset: "Admin Password Reset",
+txtModalWelcome: "Welcome to IQRA Portal",
+txtModalQuestion: "Are you logging in as a Student, Teacher, Head of Department, or Admin?",
+roleTitleStudent: "Student / Learner",
+roleDescStudent: "Activate profile with Student Number & record practice",
+roleTitleTeacher: "Quran Teacher",
+roleDescTeacher: "Review student recitations & give voice feedback",
+roleTitleHOD: "Head of Department",
+roleDescHOD: "Academic oversight & teacher review monitoring",
+roleTitleAdmin: "Super Admin",
+roleDescAdmin: "User roster management & password resets",
+txtAuthModalTitle: "Activate / Log In to Student Profile",
+txtAuthModalSub: "Enter your unique Student Number provided by IQRA Academy",
+lblStudentNum: "Student / Learner Number *",
+lblLevel: "Select Recitation Level *",
+lblPassword: "Create Password / PIN *",
+btnActivateSubmit: "Activate & Launch Student Studio"
 },
 ar: {
 titleHeader: "بوابة تلاوة القرآن الكريم",
-subtitleHeader: "سجّل التلاوة، وقارن مع كبار القراء، واحصل على تقييم الذكاء الاصطناعي لنقاط القوة والأخطاء",
-sec1Title: "١. معلومات الطالب (مطلوب لفتح التسجيل)",
-sec1Locked: "🔒 أكتمل القسم الأول",
-sec1Unlocked: "✅ اكتمل القسم الأول",
-lblStudentName: "الاسم الكامل *",
-lblStudentId: "رقم الهوية / الطالب *",
-lblGrade: "الصف / المستوى *",
-lblClass: "الشعبة *",
-lblTeacher: "معلم القرآن المعتمد (سيتم إرسال الملف عبر البريد) *",
-sec2Title: "٢. واجب التلاوة",
+subtitleHeader: "استمع إلى كبار القراء، وسجّل واجباتك، واحصل على تقييمات المعلمين المعتمدين",
+txtPracticeCTA: "تسجيل الدخول",
+txtTabPublic: "المشغل العام",
+txtTabLearner: "تدريب الطالب",
+txtTabHistory: "تلاواتي",
+txtTabTeacher: "استوديو المعلم",
+txtTabStaff: "بوابة الموظفين",
+txtTabAdmin: "الإدارة والقسم",
+txtGuestLabel: "زائر استماع",
+txtPublicTitle: "المشغل القرآني العام — استمع إلى كبار القراء",
+txtPublicSub: "اختر أية سورة أو صفحة أو نطاق آيات للاستماع إلى الشيخ الحصري، المنشاوي، بصفر، أو العفاسي.",
+txtBtnRoleSelect: "تسجيل الدخول / اختيار الدور",
+sec2Title: "اختر النص المكتوب للاستماع والتدريب",
 lblSelectMode: "اختر طريقة التحديد",
 lblModePage: "حسب الصفحة",
 lblModeAyah: "حسب نطاق الآيات",
-lblPageNum: "رقم الصفحة (١ - ٦٠٤)",
-lblAssignedText: "النص القرآني المطلوب (بالرسم العثماني)",
-sec3Title: "٣. تلاوة القارئ المرجعي (EveryAyah)",
+lblPageNum: "رقم الصفحة (١ – ٦٠٤)",
+lblAssignedText: "النص القرآني الكامل (بالرسم العثماني — اضغط على رقم الآية للاستماع المباشر)",
+sec3Title: "تلاوة القارئ المرجعي (EveryAyah.com)",
 lblSelectQari: "اختر القارئ المرجعي",
+lblSpeed: "سرعة التشغيل",
 refPlayText: "الاستماع إلى القارئ المرجعي",
-sec4Title: "٤. تسجيل التلاوة",
-msgLockNotice: "🔒 يرجى تعبئة الاسم، رقم الطالب، الصف، الشعبة، والمعلم في القسم ١ لفتح التسجيل.",
-recInstructions: "اضغط على زر التسجيل للبدء. سيتوقف التسجيل تلقائيًا عند انتهاء ٥ دقائق.",
+btnSwitchRole: "تغيير الحساب / الدور",
+sec4Title: "سجّل تلاوتك للتدريب",
+lblTimeLimit: "الحد الأقصى: ٥ دقائق (٠٥:٠٠)",
+recInstructions: "استمع إلى القارئ المرجعي أولاً، ثم اضغط على زر التسجيل. سيقوم معلمك المعتمد بتقييم تلاوتك.",
 lblReviewRec: "مراجعة الاستماع للتسجيل قبل الإرسال:",
-submitBtnLocked: "أكمل القسم ١ لتفعيل الإرسال",
-submitBtnUnlocked: "إرسال التسجيل إلى المعلم والذكاء الاصطناعي",
-reportTitle: "تقرير تقييم الذكاء الاصطناعي ومقارنة القارئ",
-lblOverallScore: "الدرجة الكلية",
-card1Title: "فحص الحفظ ودقة الكلمات",
-card2Title: "نقاط القوة لدى الطالب 💪",
-card3Title: "الأخطاء والتوجيهات التصحيحية ⚠️",
-card4Title: "مقارنة الأداء مع القارئ المرجعي 🎙️"
+submitBtnText: "إرسال التسجيل إلى المعلم",
+txtTipsTitle: "إرشادات تجويدية حسب مستوى الطالب",
+txtEduBadge: "مرجع تعليمي",
+txtTipsDisclaimerTitle: "نصائح تجويدية تعليمية (ليست تقييمًا آليًا)",
+txtTipsDisclaimerBody: "هذه النصائح هي قواعد تجويدية عامة لمستواك لمساعدتك في التدريب مع القارئ المرجعي. سيقوم معلمك بتقييم تلاوتك الخاصة.",
+txtHistoryTitle: "سجل تلاواتي",
+txtHistorySub: "عرض التلاوات المرسلة، التقييمات الرسمية، والملاحظات الصوتية للمعلم",
+btnNewAttempt: "محاولة تدريب جديدة",
+txtTeacherHeaderTag: "استوديو مراجعة المعلم",
+txtTeacherHeaderSub: "راجع تلاوات الطلاب، وحدد علامات التقييم 🟢/🟡/🔴، وسجّل الملاحظات الصوتية",
+txtInboxTitle: "صندوق تلاوات الطلاب المرسلة",
+txtStaffTag: "بوابة تلاوة الموظفين",
+txtStaffTitle: "تدريب التسجيل الذاتي للموظفين",
+txtStaffSub: "يسجل الموظفون تلاواتهم الخاصة ويرسلونها للمعلمين المعتمدين حسب الجنس.",
+lblStaffTeacher: "اختر المعلم المستلم المعتمد",
+txtAdminTag: "نظام المدير العام ورئيس القسم",
+txtAdminTitle: "قاعدة بيانات الطلاب وأمان الحسابات",
+txtAdminSub: "إدارة ملفات الطلاب، إعادة ضبط كلمات المرور، وعرض التحليلات.",
+btnAdminReset: "إعادة ضبط كلمة المرور",
+txtModalWelcome: "مرحبًا بك في بوابة اقرأ القرآنية",
+txtModalQuestion: "هل تسجل الدخول كطالب، معلم، رئيس قسم، أم مدير؟",
+roleTitleStudent: "طالب / متعلم",
+roleDescStudent: "تفعيل الحساب برقم الطالب وتسجيل التدريب",
+roleTitleTeacher: "معلم القرآن",
+roleDescTeacher: "مراجعة تلاوات الطلاب وإرسال التقييم الصوتي",
+roleTitleHOD: "رئيس القسم",
+roleDescHOD: "الإشراف الأكاديمي ومتابعة تقييمات المعلمين",
+roleTitleAdmin: "المدير العام",
+roleDescAdmin: "إدارة قائمة الطلاب وإعادة ضبط الحسابات",
+txtAuthModalTitle: "تفعيل / تسجيل الدخول لملف الطالب",
+txtAuthModalSub: "أدخل رقم الطالب الخاص بك المعتمد لدى أكاديمية اقرأ",
+lblStudentNum: "رقم الطالب / الهوية *",
+lblLevel: "اختر مستوى التلاوة *",
+lblPassword: "إنشاء كلمة المرور / الرمز *",
+btnActivateSubmit: "تفعيل وفتح استوديو الطالب"
 },
 fr: {
-titleHeader: "Portail de Récitation du Coran",
-subtitleHeader: "Enregistrez vos devoirs, comparez avec les Grands Récitateurs et obtenez l'évaluation IA",
-sec1Title: "1. Informations de l'Élève (Requis pour débloquer)",
-sec1Locked: "🔒 Remplir la Section 1",
-sec1Unlocked: "✅ Section 1 Complétée",
-lblStudentName: "Nom Complet *",
-lblStudentId: "Numéro d'Élève *",
-lblGrade: "Niveau / Classe *",
-lblClass: "Section *",
-lblTeacher: "Enseignant de Coran Assigné (Audio envoyé par Email) *",
-sec2Title: "2. Devoir de Récitation",
+titleHeader: "Plateforme de Récitation du Coran",
+subtitleHeader: "Écoutez les grands récitateurs, soumettez vos récitations et recevez les évaluations des enseignants",
+txtPracticeCTA: "Connexion",
+txtTabPublic: "Lecteur Public",
+txtTabLearner: "Pratique Élève",
+txtTabHistory: "Mes Récitations",
+txtTabTeacher: "Studio Enseignant",
+txtTabStaff: "Portail Personnel",
+txtTabAdmin: "Admin & Chef Dép.",
+txtGuestLabel: "Auditeur Invité",
+txtPublicTitle: "Lecteur Coranique Public — Écoutez les Récitateurs Références",
+txtPublicSub: "Sélectionnez n'importe quelle Sourate, Page ou Ayat pour écouter Sheikh Al-Husary, Minshawi, Basfar ou Al-Afasy.",
+txtBtnRoleSelect: "Connexion / Sélection du Rôle",
+sec2Title: "Sélectionner le Passage à Écouter et Pratiquer",
 lblSelectMode: "Sélectionner le Mode",
 lblModePage: "Par Page",
 lblModeAyah: "Par Plage d'Ayats",
 lblPageNum: "Numéro de Page (1 – 604)",
-lblAssignedText: "Texte Coranique Assigné (Graphie Outhmani)",
-sec3Title: "3. Récitateur de Référence (EveryAyah.com)",
-lblSelectQari: "Choisir le Récitateur de Référence",
-refPlayText: "Écouter le Récitateur de Référence",
-sec4Title: "4. Enregistrer la Récitation",
-msgLockNotice: "🔒 Veuillez remplir le Nom, ID, Classe, Section et Enseignant à la Section 1 pour débloquer l'enregistrement.",
-recInstructions: "Cliquez sur enregistrer pour démarrer. L'enregistrement s'arrêtera automatiquement à 05:00 max.",
+lblAssignedText: "Texte Coranique Complet (Graphie Outhmani — Cliquez sur n'importe quel Ayat)",
+sec3Title: "Modèle de Récitation de Référence (EveryAyah.com)",
+lblSelectQari: "Sélectionner le Récitateur Référence",
+lblSpeed: "Vitesse de Lecture",
+refPlayText: "Écouter le Récitateur Référence",
+btnSwitchRole: "Changer de Rôle / Profil",
+sec4Title: "Enregistrer Votre Récitation d'Entraînement",
+lblTimeLimit: "Limite: 5 Minutes (05:00) Max",
+recInstructions: "Écoutez le Récitateur ci-dessus, puis cliquez sur Enregistrer. Votre enseignant évaluera votre récitation.",
 lblReviewRec: "Réécouter Votre Enregistrement Avant Envoi:",
-submitBtnLocked: "Compléter la Section 1 pour Activer l'Envoi",
-submitBtnUnlocked: "Envoyer l'Enregistrement à l'Enseignant & IA",
-reportTitle: "Rapport d'Évaluation IA & Comparaison Qari",
-lblOverallScore: "Note Globale",
-card1Title: "Vérification de la Mémorisation (Hifz)",
-card2Title: "Points Forts de l'Élève 💪",
-card3Title: "Erreurs de Récitation & Corrections ⚠️",
-card4Title: "Comparaison avec le Récitateur Référence 🎙️"
+submitBtnText: "Envoyer l'Enregistrement à l'Enseignant",
+txtTipsTitle: "Conseils de Tajweed par Niveau",
+txtEduBadge: "Référence Éducative",
+txtTipsDisclaimerTitle: "Conseils Éducatifs (Pas une Évaluation IA)",
+txtTipsDisclaimerBody: "Ces conseils de Tajweed sont des règles générales pour votre niveau. Votre enseignant évaluera votre enregistrement.",
+txtHistoryTitle: "Historique de mes Récitations",
+txtHistorySub: "Consultez vos récitations, évaluations officielles et notes vocales de l'enseignant",
+btnNewAttempt: "Nouvelle Tentative",
+txtTeacherHeaderTag: "Studio d'Évaluation Enseignant",
+txtTeacherHeaderSub: "Évaluez les récitations des élèves, attribuez les drapeaux 🟢/🟡/🔴 et enregistrez des notes vocales",
+txtInboxTitle: "Boîte de Réception des Élèves",
+txtStaffTag: "Portail Récitation du Personnel",
+txtStaffTitle: "Entraînement Personnel du Personnel",
+txtStaffSub: "Le personnel enregistre des récitations pour soi-même et les envoie aux enseignants autorisés du même genre.",
+lblStaffTeacher: "Sélectionner l'Enseignant Destinataire Authorized",
+txtAdminTag: "Système Super Admin & Chef de Département",
+txtAdminTitle: "Base de Données Élèves & Sécurité des Comptes",
+txtAdminSub: "Gérez les profils élèves, réinitialisez les mots de passe et consultez les analyses.",
+btnAdminReset: "Réinitialiser Mot de Passe",
+txtModalWelcome: "Bienvenue sur le Portail IQRA",
+txtModalQuestion: "Vous connectez-vous en tant qu'Élève, Enseignant, Chef de Département ou Admin?",
+roleTitleStudent: "Élève / Apprenant",
+roleDescStudent: "Activer le profil avec le Numéro d'Élève & s'entraîner",
+roleTitleTeacher: "Enseignant de Coran",
+roleDescTeacher: "Évaluer les récitations & envoyer des commentaires vocaux",
+roleTitleHOD: "Chef de Département",
+roleDescHOD: "Supervision académique & suivi des évaluations",
+roleTitleAdmin: "Super Admin",
+roleDescAdmin: "Gestion des listes d'élèves & sécurité",
+txtAuthModalTitle: "Activer / Se Connecter au Profil Élève",
+txtAuthModalSub: "Entrez votre Numéro d'Élève unique fourni par IQRA Academy",
+lblStudentNum: "Numéro d'Élève / Identifiant *",
+lblLevel: "Sélectionner le Niveau *",
+lblPassword: "Créer un Mot de Passe / Code *",
+btnActivateSubmit: "Activer & Lancer le Studio Élève"
 }
 };
 
@@ -523,324 +850,532 @@ currentLang = lang;
 const dict = I18N[lang] || I18N['en'];
 const htmlRoot = document.getElementById('htmlRoot');
 
-if (lang === 'ar') {
-htmlRoot.setAttribute('dir', 'rtl');
-} else {
-htmlRoot.setAttribute('dir', 'ltr');
-}
+if (lang === 'ar') htmlRoot.setAttribute('dir', 'rtl');
+else htmlRoot.setAttribute('dir', 'ltr');
 
 Object.keys(dict).forEach(key => {
 const el = document.getElementById(key);
 if (el) {
-if (el.tagName === 'INPUT' && el.type === 'button') el.value = dict[key];
-else el.innerText = dict[key];
+if (el.tagName === 'INPUT' && (el.type === 'button' || el.type === 'submit')) {
+el.value = dict[key];
+} else {
+el.innerText = dict[key];
+}
 }
 });
-
-validateSection1();
 }
 
-// DARK / LIGHT THEME TOGGLE
-let isDarkMode = true;
+// PRE-LOADED LEARNER DATABASE
+const PRELOADED_LEARNERS = [
+{ studentId: "STU-1042", name: "Mohamed Sy", grade: "Grade 5", section: "Section A", quranGroup: "Group 3", teacher: "O. Koulibaly", level: "Intermediate", status: "Active" },
+{ studentId: "STU-1043", name: "Aisha Faye", grade: "Grade 6", section: "Section B", quranGroup: "Group 2", teacher: "O. Gueye", level: "Beginner", status: "Active" },
+{ studentId: "STU-1044", name: "Ibrahima Ndiaye", grade: "Grade 8", section: "Section A", quranGroup: "Group 5", teacher: "O. Fall", level: "Advanced", status: "Profile Created" },
+{ studentId: "STU-1045", name: "Mariama Ba", grade: "Grade 4", section: "Section C", quranGroup: "Group 1", teacher: "O. Mme Ba", level: "Intermediate", status: "Active" }
+];
+
+const TAJWEED_TIPS_LIBRARY = {
+Beginner: [
+{ title: "🕌 Madd Asli (Natural Elongation)", tip: "Keep vowel elongations (Alif, Waw, Ya) steady for 2 full counts without rushing or holding too long." },
+{ title: "🕌 Ghunnah Nasalization", tip: "Pay attention to Noon Shaddah (نّ) and Meem Shaddah (مّ). Hold the nasal sound gently for 2 counts." },
+{ title: "🕌 Qalqalah Bouncing Sound", tip: "When pausing on Qalqalah letters (ق, ط, ب, ج, د), give a clear, natural bouncing sound." }
+],
+Intermediate: [
+{ title: "📖 Ikhfa (Hiding Rules)", tip: "When Noon Sakinah or Tanween is followed by an Ikhfa letter, conceal the sound with a light nasal Ghunnah." },
+{ title: "📖 Idgham (Merging Rules)", tip: "Merge Noon Sakinah smoothly into (ي, ن, م, و) with full nasalization." },
+{ title: "📖 Heavy vs. Light Letters (Tafkhim vs Tarqiq)", tip: "Distinguish heavy throat/mouth letters (خ, ص, ض, غ, ط, ق, ظ) from lighter surrounding letters." }
+],
+Advanced: [
+{ title: "🎓 Sifaat al-Huroof (Letter Characteristics)", tip: "Ensure Hams (breath flow) on Taa (ت) and Kaaf (ك) when silent without distorting letter shape." },
+{ title: "🎓 Makharij Precision", tip: "Maintain exact throat articulation for Deep Throat Ayin (ع) and Ha (ح)." },
+{ title: "🎓 Waqf & Ibtida (Stopping & Starting)", tip: "Pause only at semantically complete meanings and restart smoothly." }
+]
+};
+
+let currentTab = 'publicPlayer';
+let activeUser = PRELOADED_LEARNERS[0];
+let studentSubmissions = [];
+let isLoggedIn = false;
+let userRole = 'guest';
+
+function openRoleSelectionModal() {
+document.getElementById('roleSelectionModal').classList.remove('hidden');
+}
+
+function closeRoleSelectionModal() {
+document.getElementById('roleSelectionModal').classList.add('hidden');
+}
+
+function openAuthModal() {
+closeRoleSelectionModal();
+document.getElementById('authModal').classList.remove('hidden');
+}
+
+function closeAuthModal() {
+document.getElementById('authModal').classList.add('hidden');
+}
+
+function selectRoleChoice(role) {
+closeRoleSelectionModal();
+userRole = role;
+
+if (role === 'student') {
+openAuthModal();
+} else {
+isLoggedIn = true;
+document.getElementById('btnPracticeCTA').classList.add('hidden');
+document.getElementById('btnLogout').classList.remove('hidden');
+document.getElementById('roleNavBar').classList.remove('hidden');
+
+['tabLearner', 'tabHistory', 'tabTeacher', 'tabStaff', 'tabAdmin'].forEach(id => {
+document.getElementById(id).classList.add('hidden');
+});
+
+if (role === 'teacher') {
+document.getElementById('tabTeacher').classList.remove('hidden');
+switchTab('teacherStudio');
+document.getElementById('roleBadge').innerText = "Logged in: Quran Teacher";
+document.getElementById('currentUserLabel').innerText = "👤 Teacher Studio";
+} else if (role === 'hod') {
+document.getElementById('tabAdmin').classList.remove('hidden');
+switchTab('adminDashboard');
+document.getElementById('roleBadge').innerText = "Logged in: Head of Department";
+document.getElementById('currentUserLabel').innerText = "👤 HOD Oversight";
+} else if (role === 'admin') {
+document.getElementById('tabAdmin').classList.remove('hidden');
+switchTab('adminDashboard');
+document.getElementById('roleBadge').innerText = "Logged in: Super Admin";
+document.getElementById('currentUserLabel').innerText = "👤 Super Admin";
+}
+}
+}
+
+function handleAccountActivation(e) {
+e.preventDefault();
+const studentId = document.getElementById('inputStudentNumber').value.trim();
+const level = document.getElementById('inputLearnerLevel').value;
+
+const found = PRELOADED_LEARNERS.find(l => l.studentId.toUpperCase() === studentId.toUpperCase());
+
+if (found) {
+found.level = level;
+found.status = "Active";
+activeUser = found;
+isLoggedIn = true;
+userRole = 'student';
+
+document.getElementById('activeStudentName').innerText = activeUser.name;
+document.getElementById('activeStudentDetails').innerText = `ID: ${activeUser.studentId} | ${activeUser.grade} - ${activeUser.section} | Teacher: ${activeUser.teacher}`;
+document.getElementById('activeLevelBadge').innerText = `${activeUser.level} Level`;
+document.getElementById('profileInitial').innerText = activeUser.name.charAt(0);
+document.getElementById('currentUserLabel').innerText = `👤 ${activeUser.name} (${activeUser.studentId})`;
+document.getElementById('roleBadge').innerText = `Student: ${activeUser.name}`;
+
+document.getElementById('btnPracticeCTA').classList.add('hidden');
+document.getElementById('btnLogout').classList.remove('hidden');
+document.getElementById('roleNavBar').classList.remove('hidden');
+
+['tabTeacher', 'tabStaff', 'tabAdmin'].forEach(id => document.getElementById(id).classList.add('hidden'));
+['tabLearner', 'tabHistory'].forEach(id => document.getElementById(id).classList.remove('hidden'));
+
+closeAuthModal();
+switchTab('learnerStudio');
+alert(`✅ Welcome ${activeUser.name}! Your student profile has been activated.`);
+} else {
+alert(`❌ Student Number '${studentId}' was not found in the pre-loaded school database. Please check the number or contact your administrator.`);
+}
+}
+
+function handleLogout() {
+isLoggedIn = false;
+userRole = 'guest';
+
+document.getElementById('btnPracticeCTA').classList.remove('hidden');
+document.getElementById('btnLogout').classList.add('hidden');
+document.getElementById('roleNavBar').classList.add('hidden');
+
+document.getElementById('roleBadge').innerText = "Public Visitor (Listening Mode)";
+document.getElementById('currentUserLabel').innerText = "👤 Guest Listener";
+
+switchTab('publicPlayer');
+alert("🔒 You have logged out. Returning to Public Quran Listening Mode.");
+}
+
+// DEFAULT THEME MODE IS LIGHT MODE
+let isDarkMode = false;
 function toggleTheme() {
 isDarkMode = !isDarkMode;
-const themeIcon = document.getElementById('themeIcon');
-const themeText = document.getElementById('themeText');
+const icon = document.getElementById('themeIcon');
+const text = document.getElementById('themeText');
+const btn = document.getElementById('themeToggleBtn');
 
 if (isDarkMode) {
 document.documentElement.classList.add('dark');
-themeIcon.className = "fa-solid fa-sun text-amber-400";
-themeText.innerText = currentLang === 'ar' ? "الوضع الفاتح" : (currentLang === 'fr' ? "Mode Clair" : "Light Mode");
+icon.className = "fa-solid fa-sun text-amber-400";
+text.innerText = "Light Mode";
+btn.className = "px-3 py-2 rounded-xl bg-emerald-950/80 hover:bg-emerald-900 text-xs font-bold text-blue-300 border border-emerald-600/80 flex items-center space-x-1.5 transition cursor-pointer";
 } else {
 document.documentElement.classList.remove('dark');
-themeIcon.className = "fa-solid fa-moon text-amber-300";
-themeText.innerText = currentLang === 'ar' ? "الوضع الداكن" : (currentLang === 'fr' ? "Mode Sombre" : "Dark Mode");
-}
-}
-toggleTheme();
-
-// SECTION 1 VALIDATION & LOCK LOGIC
-function validateSection1() {
-const name = document.getElementById('studentName').value.trim();
-const id = document.getElementById('studentId').value.trim();
-const grade = document.getElementById('gradeSelect').value;
-const section = document.getElementById('classSelect').value;
-const teacher = document.getElementById('teacherSelect').value;
-
-const isComplete = name && id && grade && section && teacher;
-
-const sec1Box = document.getElementById('section1Box');
-const badge = document.getElementById('sec1StatusBadge');
-const sec4Box = document.getElementById('section4Box');
-const recordBtn = document.getElementById('recordBtn');
-const submitBtn = document.getElementById('submitBtn');
-const lockNotice = document.getElementById('recordLockNotice');
-const submitText = document.getElementById('submitBtnText');
-const recordStatusText = document.getElementById('recordStatusText');
-
-const dict = I18N[currentLang] || I18N['en'];
-
-if (isComplete) {
-sec1Box.className = "bg-emerald-50/70 dark:bg-slate-800/80 rounded-2xl p-5 sm:p-6 border-2 border-emerald-500 shadow-md space-y-4 transition-all";
-badge.className = "text-xs px-3 py-1 bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 rounded-full font-bold border border-emerald-400";
-badge.innerHTML = `<i class="fa-solid fa-circle-check mr-1 text-emerald-600"></i> ${dict.sec1Unlocked}`;
-
-sec4Box.classList.remove('opacity-60');
-lockNotice.classList.add('hidden');
-
-recordBtn.disabled = false;
-recordBtn.className = "w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 text-white flex flex-col items-center justify-center shadow-2xl transform active:scale-95 transition border-4 border-emerald-800 cursor-pointer opacity-100";
-recordStatusText.innerText = "Record";
-
-submitBtn.disabled = false;
-submitBtn.className = "w-full py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl font-extrabold text-lg shadow-xl transition flex items-center justify-center space-x-3 cursor-pointer opacity-100";
-submitText.innerText = dict.submitBtnUnlocked;
-} else {
-sec1Box.className = "bg-amber-50/40 dark:bg-slate-800/60 rounded-2xl p-5 sm:p-6 border-2 border-amber-300 dark:border-slate-700 space-y-4 transition-all";
-badge.className = "text-xs px-3 py-1 bg-amber-100 text-amber-800 dark:bg-amber-950/80 dark:text-amber-300 rounded-full font-bold border border-amber-300";
-badge.innerHTML = `<i class="fa-solid fa-lock mr-1"></i> ${dict.sec1Locked}`;
-
-sec4Box.classList.add('opacity-60');
-lockNotice.classList.remove('hidden');
-
-recordBtn.disabled = true;
-recordBtn.className = "w-20 h-20 rounded-full bg-gray-600 text-white flex flex-col items-center justify-center shadow-2xl border-4 border-gray-700 cursor-not-allowed opacity-50 transition";
-recordStatusText.innerText = "Locked";
-
-submitBtn.disabled = true;
-submitBtn.className = "w-full py-4 bg-gray-500 text-gray-300 rounded-2xl font-extrabold text-lg shadow-xl transition flex items-center justify-center space-x-3 cursor-not-allowed opacity-50";
-submitText.innerText = dict.submitBtnLocked;
+icon.className = "fa-solid fa-moon text-blue-600";
+text.innerText = "Dark Mode";
+btn.className = "px-3 py-2 rounded-xl bg-white text-slate-900 border border-emerald-300 shadow-sm hover:bg-emerald-50 text-xs font-bold flex items-center space-x-1.5 transition cursor-pointer";
 }
 }
 
-const SURAHS = [
-"1. Al-Fatihah", "2. Al-Baqarah", "3. Ali 'Imran", "4. An-Nisa'", "5. Al-Ma'idah", "6. Al-An'am",
-"7. Al-A'raf", "8. Al-Anfal", "9. At-Tawbah", "10. Yunus", "11. Hud", "12. Yusuf", "13. Ar-Ra'd",
-"14. Ibrahim", "15. Al-Hijr", "16. An-Nahl", "17. Al-Isra'", "18. Al-Kahf", "19. Maryam", "20. Taha",
-"21. Al-Anbiya'", "22. Al-Hajj", "23. Al-Mu'minun", "24. An-Nur", "25. Al-Furqan", "26. Ash-Shu'ara'",
-"27. An-Naml", "28. Al-Qasas", "29. Al-'Ankabut", "30. Ar-Rum", "31. Luqman", "32. As-Sajdah",
-"33. Al-Ahzab", "34. Saba'", "35. Fatir", "36. Ya-Sin", "37. As-Saffat", "38. Sad", "39. Az-Zumar",
-"40. Ghafir", "41. Fussilat", "42. Ash-Shura", "43. Az-Zukhruf", "44. Ad-Dukhan", "45. Al-Jathiyah",
-"46. Al-Ahqaf", "47. Muhammad", "48. Al-Fat-h", "49. Al-Hujurat", "50. Qaf", "51. Adh-Dhariyat",
-"52. At-Tur", "53. An-Najm", "54. Al-Qamar", "55. Ar-Rahman", "56. Al-Waqi'ah", "57. Al-Hadid",
-"58. Al-Mujadila", "59. Al-Hashr", "60. Al-Mumtahanah", "61. As-Saff", "62. Al-Jumu'ah", "63. Al-Munafiqun",
-"64. At-Taghabun", "65. At-Talaq", "66. At-Tahrim", "67. Al-Mulk", "68. Al-Qalam", "69. Al-Haqqah",
-"70. Al-Ma'arij", "71. Nuh", "72. Al-Jinn", "73. Al-Muzzammil", "74. Al-Muddaththir", "75. Al-Qiyamah",
-"76. Al-Insan", "77. Al-Mursalat", "78. An-Naba'", "79. An-Nazi'at", "80. 'Abasa", "81. At-Takwir",
-"82. Al-Infitar", "83. Al-Mutaffifin", "84. Al-Inshiqaq", "85. Al-Buruj", "86. At-Tariq", "87. Al-A'la",
-"88. Al-Ghashiyah", "89. Al-Fajr", "90. Al-Balad", "91. Ash-Shams", "92. Al-Layl", "93. Ad-Duhaa",
-"94. Ash-Sharh", "95. At-Tin", "96. Al-'Alaq", "97. Al-Qadr", "98. Al-Bayyinah", "99. Az-Zalzalah",
-"100. Al-'Adiyat", "101. Al-Qari'ah", "102. At-Takathur", "103. Al-'Asr", "104. Al-Humazah", "105. Al-Fil",
-"106. Quraysh", "107. Al-Ma'un", "108. Al-Kawthar", "109. Al-Kafirun", "110. An-Nasr", "111. Al-Masad",
-"112. Al-Ikhlas", "113. Al-Falaq", "114. An-Nas"
+function switchTab(tabId) {
+currentTab = tabId;
+const tabs = ['publicPlayer', 'learnerStudio', 'learnerHistory', 'teacherStudio', 'staffStudio', 'adminDashboard'];
+
+tabs.forEach(t => {
+const view = document.getElementById('view' + t.charAt(0).toUpperCase() + t.slice(1));
+const btn = document.getElementById('tab' + t.charAt(0).toUpperCase() + t.slice(1));
+if (view) view.classList.add('hidden');
+if (btn) btn.className = "px-3 py-1.5 rounded-lg bg-emerald-950/60 text-emerald-200 hover:bg-emerald-800/60 transition";
+});
+
+const activeView = document.getElementById('view' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+const activeBtn = document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1));
+
+if (activeView) activeView.classList.remove('hidden');
+if (activeBtn) activeBtn.className = "px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-blue-600 to-indigo-600 text-white font-black transition";
+
+if (tabId === 'teacherStudio') renderTeacherInbox();
+if (tabId === 'adminDashboard') renderAdminTable();
+if (tabId === 'learnerHistory') renderLearnerHistory();
+}
+
+// COMPLETE 114 SURAHS OF THE HOLY QURAN
+const ALL_SURAHS = [
+"1. Al-Fatihah", "2. Al-Baqarah", "3. Ali 'Imran", "4. An-Nisa'", "5. Al-Ma'idah", "6. Al-An'am", "7. Al-A'raf", "8. Al-Anfal", "9. At-Tawbah", "10. Yunus",
+"11. Hud", "12. Yusuf", "13. Ar-Ra'd", "14. Ibrahim", "15. Al-Hijr", "16. An-Nahl", "17. Al-Isra'", "18. Al-Kahf", "19. Maryam", "20. Taha",
+"21. Al-Anbiya'", "22. Al-Hajj", "23. Al-Mu'minun", "24. An-Nur", "25. Al-Furqan", "26. Ash-Shu'ara'", "27. An-Naml", "28. Al-Qasas", "29. Al-'Ankabut", "30. Ar-Rum",
+"31. Luqman", "32. As-Sajdah", "33. Al-Ahzab", "34. Saba'", "35. Fatir", "36. Ya-Sin", "37. As-Saffat", "38. Sad", "39. Az-Zumar", "40. Ghafir",
+"41. Fussilat", "42. Ash-Shura", "43. Az-Zukhruf", "44. Ad-Dukhan", "45. Al-Jathiyah", "46. Al-Ahqaf", "47. Muhammad", "48. Al-Fath", "49. Al-Hujurat", "50. Qaf",
+"51. Adh-Dhariyat", "52. At-Tur", "53. An-Najm", "54. Al-Qamar", "55. Ar-Rahman", "56. Al-Waqi'ah", "57. Al-Hadid", "58. Al-Mujadila", "59. Al-Hashr", "60. Al-Mumtahanah",
+"61. As-Saff", "62. Al-Jumu'ah", "63. Al-Munafiqun", "64. At-Taghabun", "65. At-Talaq", "66. At-Tahrim", "67. Al-Mulk", "68. Al-Qalam", "69. Al-Haqqah", "70. Al-Ma'arij",
+"71. Nuh", "72. Al-Jinn", "73. Al-Muzzammil", "74. Al-Muddaththir", "75. Al-Qiyamah", "76. Al-Insan", "77. Al-Mursalat", "78. An-Naba'", "79. An-Nazi'at", "80. 'Abasa",
+"81. At-Takwir", "82. Al-Infitar", "83. Al-Mutaffifin", "84. Al-Inshiqaq", "85. Al-Buruj", "86. At-Tariq", "87. Al-A'la", "88. Al-Ghashiyah", "89. Al-Fajr", "90. Al-Balad",
+"91. Ash-Shams", "92. Al-Layl", "93. Ad-Duha", "94. Ash-Sharh", "95. At-Tin", "96. Al-'Alaq", "97. Al-Qadr", "98. Al-Bayyinah", "99. Az-Zalzalah", "100. Al-'Adiyat",
+"101. Al-Qari'ah", "102. At-Takathur", "103. Al-'Asr", "104. Al-Humazah", "105. Al-Fil", "106. Quraysh", "107. Al-Ma'un", "108. Al-Kawthar", "109. Al-Kafirun", "110. An-Nasr",
+"111. Al-Masad", "112. Al-Ikhlas", "113. Al-Falaq", "114. An-Nas"
 ];
-
-let recordedBase64Audio = "";
-let audioPlaylist = [];
-let currentPlaylistIndex = 0;
-let currentLoadedQuranText = "";
 
 function populateSurahs() {
 const startSelect = document.getElementById('startSurah');
 const endSelect = document.getElementById('endSurah');
+if (!startSelect || !endSelect) return;
+
 startSelect.innerHTML = "";
 endSelect.innerHTML = "";
-SURAHS.forEach((s, idx) => {
-const opt1 = new Option(s, idx + 1);
-const opt2 = new Option(s, idx + 1);
-startSelect.add(opt1);
-endSelect.add(opt2);
+ALL_SURAHS.forEach((s, idx) => {
+startSelect.add(new Option(s, idx + 1));
+endSelect.add(new Option(s, idx + 1));
 });
-endSelect.value = "1";
 }
 populateSurahs();
 
-function handleModeChange() {
-const mode = document.querySelector('input[name="submissionMode"]:checked').value;
+let currentSubmissionMode = 'page';
+
+function selectSubmissionMode(mode) {
+currentSubmissionMode = mode;
 const pageContainer = document.getElementById('pageContainer');
 const ayahContainer = document.getElementById('ayahContainer');
-const pageLabel = document.getElementById('modePageLabel');
-const ayahLabel = document.getElementById('modeAyahLabel');
+const modePageLabel = document.getElementById('modePageLabel');
+const modeAyahLabel = document.getElementById('modeAyahLabel');
 const modeBadge = document.getElementById('modeBadge');
+const radioPage = document.getElementById('radioModePage');
+const radioAyah = document.getElementById('radioModeAyah');
 
 if (mode === 'page') {
+if (radioPage) radioPage.checked = true;
+if (radioAyah) radioAyah.checked = false;
+
 pageContainer.classList.remove('hidden');
 ayahContainer.classList.add('hidden');
-modeBadge.innerText = "Page Mode";
-pageLabel.className = "flex items-center justify-center p-3.5 border-2 border-emerald-600 bg-emerald-100/70 dark:bg-emerald-950/80 rounded-xl cursor-pointer transition font-bold text-emerald-900 dark:text-emerald-200 text-sm shadow-sm";
-ayahLabel.className = "flex items-center justify-center p-3.5 border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl cursor-pointer transition font-bold text-gray-600 dark:text-gray-300 text-sm hover:border-emerald-200";
+
+modePageLabel.className = "flex items-center justify-center p-3.5 border-2 border-emerald-600 bg-emerald-100/90 dark:bg-emerald-950 rounded-xl cursor-pointer transition font-extrabold text-emerald-950 dark:text-emerald-200 text-xs sm:text-sm shadow-md";
+modeAyahLabel.className = "flex items-center justify-center p-3.5 border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl cursor-pointer transition font-bold text-gray-500 dark:text-gray-400 text-xs sm:text-sm hover:border-emerald-300";
+if (modeBadge) modeBadge.innerText = "Page Mode";
 } else {
+if (radioPage) radioPage.checked = false;
+if (radioAyah) radioAyah.checked = true;
+
 pageContainer.classList.add('hidden');
 ayahContainer.classList.remove('hidden');
-modeBadge.innerText = "Ayah Range Mode";
-ayahLabel.className = "flex items-center justify-center p-3.5 border-2 border-emerald-600 bg-emerald-100/70 dark:bg-emerald-950/80 rounded-xl cursor-pointer transition font-bold text-emerald-900 dark:text-emerald-200 text-sm shadow-sm";
-pageLabel.className = "flex items-center justify-center p-3.5 border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl cursor-pointer transition font-bold text-gray-600 dark:text-gray-300 text-sm hover:border-emerald-200";
+
+modeAyahLabel.className = "flex items-center justify-center p-3.5 border-2 border-emerald-600 bg-emerald-100/90 dark:bg-emerald-950 rounded-xl cursor-pointer transition font-extrabold text-emerald-950 dark:text-emerald-200 text-xs sm:text-sm shadow-md";
+modePageLabel.className = "flex items-center justify-center p-3.5 border-2 border-gray-200 dark:border-slate-700 bg-white dark:bg-slate-900 rounded-xl cursor-pointer transition font-bold text-gray-500 dark:text-gray-400 text-xs sm:text-sm hover:border-emerald-300";
+if (modeBadge) modeBadge.innerText = "Ayah Range Mode";
 }
 updateQuranPreviewText();
 }
 
 function stepPage(delta) {
 const pageInput = document.getElementById('pageNumber');
-let current = parseInt(pageInput.value) || 1;
-current = Math.max(1, Math.min(604, current + delta));
+if (!pageInput) return;
+let current = parseInt(pageInput.value, 10);
+if (isNaN(current)) current = 1;
+current += delta;
+if (current < 1) current = 1;
+if (current > 604) current = 604;
 pageInput.value = current;
-document.getElementById('pageDisplayNum').innerText = current;
 updateQuranPreviewText();
 }
 
-async function updateQuranPreviewText() {
-const mode = document.querySelector('input[name="submissionMode"]:checked').value;
-const display = document.getElementById('quranPreviewDisplay');
-const status = document.getElementById('quranTextStatus');
-status.innerText = "Loading Uthmani Text...";
+// CONTINUOUS AUDIO PLAYBACK ENGINE WITH REPEAT / INFINITE LOOP MODE
+let audioPlaylist = [];
+let currentTrackIndex = 0;
+let currentSpeed = 1.0;
+let currentAyahsData = [];
+let repeatMode = "1"; // '1', '3', '5', '10', or 'infinite'
+let completedCycles = 1;
 
-try {
-if (mode === 'page') {
-const pageNum = parseInt(document.getElementById('pageNumber').value) || 1;
-document.getElementById('pageDisplayNum').innerText = pageNum;
-const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
-if (!res.ok) throw new Error("API Network response was not ok");
-const data = await res.json();
-if (data.data && data.data.ayahs && data.data.ayahs.length > 0) {
-const fullText = data.data.ayahs.map(a => a.text).join(" ۝ ");
-currentLoadedQuranText = fullText;
-display.innerText = fullText;
-status.innerText = `Page ${pageNum} (${data.data.ayahs.length} Ayahs)`;
-buildPageAudioPlaylist(data.data.ayahs);
-return;
-}
-} else {
-const sSurah = parseInt(document.getElementById('startSurah').value) || 1;
-const sAyah = parseInt(document.getElementById('startAyah').value) || 1;
-const eAyah = parseInt(document.getElementById('endAyah').value) || sAyah;
-
-const res = await fetch(`https://api.alquran.cloud/v1/surah/${sSurah}/quran-uthmani`);
-if (!res.ok) throw new Error("API Network error");
-const data = await res.json();
-if (data.data && data.data.ayahs) {
-const ayahs = data.data.ayahs;
-const minA = Math.min(sAyah, eAyah);
-const maxA = Math.max(sAyah, eAyah);
-const filtered = ayahs.filter(a => a.numberInSurah >= minA && a.numberInSurah <= maxA);
-const fullText = filtered.map(a => a.text).join(" ۝ ");
-currentLoadedQuranText = fullText || "No ayahs found in this range.";
-display.innerText = currentLoadedQuranText;
-status.innerText = `Surah ${sSurah}:${minA}-${maxA}`;
-buildAyahAudioPlaylist(sSurah, minA, maxA);
-return;
-}
-}
-} catch (e) {
-console.warn("Uthmani Text fetch note:", e);
-status.innerText = "Offline Mode";
-currentLoadedQuranText = "بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ";
-display.innerText = currentLoadedQuranText;
-buildAyahAudioPlaylist(1, 1, 7);
+function setLoopMode(modeVal) {
+repeatMode = modeVal;
+completedCycles = 1;
+const status = document.getElementById('audioTrackStatus');
+if (status) {
+if (repeatMode === 'infinite') status.innerText = "Infinite Loop Enabled (∞)";
+else if (repeatMode === '1') status.innerText = "Looping Disabled (1x)";
+else status.innerText = `Loop Mode: ${repeatMode}x Repeats`;
 }
 }
 
-function buildPageAudioPlaylist(ayahs) {
-const reciter = document.getElementById('reciterSelect').value;
+function padZero(num, size) {
+let s = num + "";
+while (s.length < size) s = "0" + s;
+return s;
+}
+
+function buildAudioPlaylist(ayahList) {
+currentAyahsData = ayahList || [];
+const qari = document.getElementById('reciterSelect').value || 'Husary_128kbps';
 audioPlaylist = [];
-ayahs.forEach(a => {
-const sNum = String(a.surah.number).padStart(3, '0');
-const aNum = String(a.numberInSurah).padStart(3, '0');
-audioPlaylist.push({
-url: `https://everyayah.com/data/${reciter}/${sNum}${aNum}.mp3`,
-title: `Surah ${a.surah.number}:${a.numberInSurah}`
+
+if (currentAyahsData && currentAyahsData.length > 0) {
+audioPlaylist = currentAyahsData.map((a, idx) => {
+const surahNum = a.surah ? a.surah.number : (parseInt(document.getElementById('startSurah').value) || 1);
+const sStr = padZero(surahNum, 3);
+const aStr = padZero(a.numberInSurah, 3);
+return {
+url: `https://everyayah.com/data/${qari}/${sStr}${aStr}.mp3`,
+label: `Surah ${surahNum}:${a.numberInSurah} (Track ${idx + 1} of ${currentAyahsData.length})`
+};
 });
-});
-currentPlaylistIndex = 0;
-updateAudioTrackUI();
-}
-
-function buildAyahAudioPlaylist(surahNum, startAyah, endAyah) {
-const reciter = document.getElementById('reciterSelect').value;
-audioPlaylist = [];
-const surahPadded = String(surahNum).padStart(3, '0');
-
-for (let a = startAyah; a <= endAyah; a++) {
-const ayahPadded = String(a).padStart(3, '0');
-audioPlaylist.push({
-url: `https://everyayah.com/data/${reciter}/${surahPadded}${ayahPadded}.mp3`,
-title: `Surah ${surahNum}:${a}`
-});
-}
-currentPlaylistIndex = 0;
-updateAudioTrackUI();
-}
-
-function onReciterChange() {
-updateQuranPreviewText();
-}
-
-function updateAudioTrackUI() {
-const player = document.getElementById('referenceAudioPlayer');
-const label = document.getElementById('trackLabel');
-const statusLabel = document.getElementById('audioTrackStatus');
-
-if (audioPlaylist.length > 0) {
-if (currentPlaylistIndex >= audioPlaylist.length) currentPlaylistIndex = 0;
-if (currentPlaylistIndex < 0) currentPlaylistIndex = audioPlaylist.length - 1;
-
-const currentTrack = audioPlaylist[currentPlaylistIndex];
-player.src = currentTrack.url;
-label.innerText = `${currentTrack.title} (Track ${currentPlaylistIndex + 1} of ${audioPlaylist.length})`;
-statusLabel.innerText = `Track ${currentPlaylistIndex + 1}/${audioPlaylist.length}`;
 } else {
-label.innerText = "No track loaded";
-statusLabel.innerText = "Ready";
-}
-}
-
-function playReferenceAudio() {
-const player = document.getElementById('referenceAudioPlayer');
-const statusLabel = document.getElementById('audioTrackStatus');
-
-if (audioPlaylist.length === 0) {
-updateQuranPreviewText();
-}
-
-if (audioPlaylist.length > 0) {
-updateAudioTrackUI();
-statusLabel.innerText = `Playing ${audioPlaylist[currentPlaylistIndex].title}...`;
-player.play().then(() => {
-console.log("Audio playing successfully");
-}).catch(err => {
-console.log("Audio play gesture note:", err);
-statusLabel.innerText = "Click Play on Audio Bar";
+for (let i = 1; i <= 7; i++) {
+const aStr = padZero(i, 3);
+audioPlaylist.push({
+url: `https://everyayah.com/data/${qari}/001${aStr}.mp3`,
+label: `Surah 1:${i} (Track ${i} of 7)`
 });
+}
+}
+}
+
+function loadTrackAtIndex(idx, autoPlay = false) {
+if (idx < 0 || idx >= audioPlaylist.length) return;
+currentTrackIndex = idx;
+const track = audioPlaylist[idx];
+const player = document.getElementById('referenceAudioPlayer');
+const trackLabel = document.getElementById('trackLabel');
+const status = document.getElementById('audioTrackStatus');
+
+player.src = track.url;
+player.playbackRate = currentSpeed;
+if (trackLabel) trackLabel.innerText = track.label;
+
+if (status) {
+const loopTag = repeatMode === 'infinite' ? '∞ Loop' : `${completedCycles}/${repeatMode} Loop`;
+status.innerText = `Track ${idx + 1}/${audioPlaylist.length} (${loopTag})`;
+}
+
+if (autoPlay) {
+player.play().then(() => updatePlayButtonState(true)).catch(console.error);
+} else {
+updatePlayButtonState(false);
 }
 }
 
 function prevTrack() {
-if (audioPlaylist.length === 0) return;
-currentPlaylistIndex = (currentPlaylistIndex - 1 + audioPlaylist.length) % audioPlaylist.length;
-updateAudioTrackUI();
-const player = document.getElementById('referenceAudioPlayer');
-player.play().catch(e => {});
+if (currentTrackIndex > 0) {
+loadTrackAtIndex(currentTrackIndex - 1, true);
+}
 }
 
 function nextTrack() {
-if (audioPlaylist.length === 0) return;
-currentPlaylistIndex = (currentPlaylistIndex + 1) % audioPlaylist.length;
-updateAudioTrackUI();
-const player = document.getElementById('referenceAudioPlayer');
-player.play().catch(e => {});
+if (currentTrackIndex < audioPlaylist.length - 1) {
+loadTrackAtIndex(currentTrackIndex + 1, true);
+}
 }
 
-document.getElementById('referenceAudioPlayer').onended = () => {
-nextTrack();
+function onReciterChange() {
+const player = document.getElementById('referenceAudioPlayer');
+const wasPlaying = !player.paused;
+const savedIndex = currentTrackIndex;
+
+buildAudioPlaylist(currentAyahsData);
+loadTrackAtIndex(savedIndex, wasPlaying);
+}
+
+function setSpeed(spd) {
+currentSpeed = spd;
+const player = document.getElementById('referenceAudioPlayer');
+if (player) player.playbackRate = spd;
+
+['spd075', 'spd100', 'spd125'].forEach(id => {
+const btn = document.getElementById(id);
+if (btn) btn.className = "px-2.5 py-1 bg-emerald-100 dark:bg-slate-800 hover:bg-emerald-200 text-emerald-900 dark:text-emerald-200 rounded-lg text-xs font-bold transition cursor-pointer";
+});
+
+if (spd === 0.75) {
+const b = document.getElementById('spd075');
+if (b) b.className = "px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-xs font-extrabold shadow transition cursor-pointer";
+} else if (spd === 1.0) {
+const b = document.getElementById('spd100');
+if (b) b.className = "px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-xs font-extrabold shadow transition cursor-pointer";
+} else if (spd === 1.25) {
+const b = document.getElementById('spd125');
+if (b) b.className = "px-2.5 py-1 bg-emerald-600 text-white rounded-lg text-xs font-extrabold shadow transition cursor-pointer";
+}
+}
+
+// UPDATE QURAN TEXT PREVIEW WITH SAPPHIRE BLUE AYAH BADGES & AUTO PLAYER SWITCH
+async function updateQuranPreviewText() {
+const mode = currentSubmissionMode;
+const display = document.getElementById('quranPreviewDisplay');
+const status = document.getElementById('quranTextStatus');
+const player = document.getElementById('referenceAudioPlayer');
+const wasPlaying = player ? !player.paused : false;
+
+if (!display) return;
+
+display.innerHTML = '<span class="text-xs text-gray-400 font-sans flex items-center justify-center py-6"><i class="fa-solid fa-spinner fa-spin mr-2 text-emerald-500"></i> Loading Quranic text from API...</span>';
+if (status) status.innerText = 'Loading...';
+
+try {
+if (mode === 'page') {
+const pageNum = parseInt(document.getElementById('pageNumber').value) || 1;
+const res = await fetch(`https://api.alquran.cloud/v1/page/${pageNum}/quran-uthmani`);
+const data = await res.json();
+
+if (data.code === 200 && data.data.ayahs && data.data.ayahs.length > 0) {
+const fullText = data.data.ayahs.map((a, idx) => `${a.text} <button type="button" onclick="loadTrackAtIndex(${idx}, true)" title="Click to play Ayah ${a.numberInSurah}" class="text-blue-600 dark:text-blue-400 hover:text-blue-500 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 hover:border-blue-500 px-2 py-0.5 rounded-full inline-block cursor-pointer transition transform hover:scale-110">﴿${a.numberInSurah}﴾</button>`).join(' ');
+display.innerHTML = fullText;
+if (status) status.innerText = `Page ${pageNum} (${data.data.ayahs.length} Ayahs Loaded)`;
+
+buildAudioPlaylist(data.data.ayahs);
+completedCycles = 1;
+loadTrackAtIndex(0, wasPlaying);
+} else {
+throw new Error("Invalid API response");
+}
+} else {
+const startSurah = parseInt(document.getElementById('startSurah').value) || 1;
+const startAyah = parseInt(document.getElementById('startAyah').value) || 1;
+const endAyah = parseInt(document.getElementById('endAyah').value) || 7;
+
+const res = await fetch(`https://api.alquran.cloud/v1/surah/${startSurah}/quran-uthmani`);
+const data = await res.json();
+
+if (data.code === 200 && data.data.ayahs) {
+const filtered = data.data.ayahs.filter(a => a.numberInSurah >= startAyah && a.numberInSurah <= endAyah);
+if (filtered.length > 0) {
+const fullText = filtered.map((a, idx) => `${a.text} <button type="button" onclick="loadTrackAtIndex(${idx}, true)" title="Click to play Ayah ${a.numberInSurah}" class="text-blue-600 dark:text-blue-400 hover:text-blue-500 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 hover:border-blue-500 px-2 py-0.5 rounded-full inline-block cursor-pointer transition transform hover:scale-110">﴿${a.numberInSurah}﴾</button>`).join(' ');
+display.innerHTML = fullText;
+if (status) status.innerText = `Surah ${startSurah}: Ayahs ${startAyah}–${endAyah} (${filtered.length} Ayahs Loaded)`;
+
+buildAudioPlaylist(filtered);
+completedCycles = 1;
+loadTrackAtIndex(0, wasPlaying);
+} else {
+display.innerHTML = `<span class="text-xs text-rose-400 font-sans">No Ayahs found in range ${startAyah} to ${endAyah}.</span>`;
+buildAudioPlaylist([]);
+}
+} else {
+throw new Error("Invalid Surah API response");
+}
+}
+} catch (err) {
+console.warn("API fetch error, falling back to cached Al-Fatihah:", err);
+display.innerHTML = `بِسْمِ ٱللَّهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿١﴾</span> ٱلْحَمْدُ لِلَّهِ رَبِّ ٱلْعَٰلَمِينَ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿٢﴾</span> ٱلرَّحْمَٰنِ ٱلرَّحِيمِ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿٣﴾</span> مَٰلِكِ يَوْمِ ٱلدِّينِ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿٤﴾</span> إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿٥﴾</span> ٱهْدِنَا ٱلصِّرَٰطَ ٱلْمُسْتَقِيمَ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿٦﴾</span> صِرَٰطَ ٱلَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ ٱلْمَغْضُوبِ عَلَيْهِمْ وَلَا ٱلضَّآلِّينَ <span class="text-blue-600 dark:text-blue-400 font-sans text-sm mx-1.5 font-bold border border-blue-500/40 px-1.5 py-0.5 rounded-full">﴿٧﴾</span>`;
+if (status) status.innerText = "Full Al-Fatihah (7 Ayahs)";
+buildAudioPlaylist([]);
+}
+}
+
+// SETUP CONTINUOUS PLAYBACK & PASSAGE REPEAT LOOP LISTENERS
+document.addEventListener("DOMContentLoaded", () => {
+const player = document.getElementById('referenceAudioPlayer');
+if (player) {
+player.onended = function() {
+if (currentTrackIndex < audioPlaylist.length - 1) {
+loadTrackAtIndex(currentTrackIndex + 1, true);
+} else {
+const maxLoops = repeatMode === 'infinite' ? Infinity : parseInt(repeatMode, 10);
+
+if (repeatMode === 'infinite' || completedCycles < maxLoops) {
+completedCycles++;
+const status = document.getElementById('audioTrackStatus');
+if (status) status.innerText = `Looping Passage (Cycle ${completedCycles}/${repeatMode === 'infinite' ? '∞' : maxLoops})`;
+loadTrackAtIndex(0, true);
+} else {
+const status = document.getElementById('audioTrackStatus');
+if (status) status.innerText = `Finished (${completedCycles} Loops Completed)`;
+updatePlayButtonState(false);
+completedCycles = 1;
+}
+}
 };
+
+player.onplay = () => updatePlayButtonState(true);
+player.onpause = () => updatePlayButtonState(false);
+}
+});
+
+function playReferenceAudio() {
+const player = document.getElementById('referenceAudioPlayer');
+if (audioPlaylist.length === 0) return;
+
+if (player.paused) {
+if (!player.src || player.src === "" || player.ended) {
+completedCycles = 1;
+loadTrackAtIndex(0, true);
+} else {
+player.play().then(() => updatePlayButtonState(true)).catch(console.error);
+}
+} else {
+player.pause();
+updatePlayButtonState(false);
+}
+}
+
+function updatePlayButtonState(isPlaying) {
+const refPlayText = document.getElementById('refPlayText');
+const refPlayBtn = document.getElementById('refPlayBtn');
+const refPlayIcon = document.getElementById('refPlayIcon');
+const status = document.getElementById('audioTrackStatus');
+
+if (isPlaying) {
+if (refPlayText) refPlayText.innerText = "Pause Master Reciter (Playing Continuously)";
+if (refPlayIcon) refPlayIcon.className = "fa-solid fa-circle-pause text-base text-blue-300";
+if (refPlayBtn) refPlayBtn.className = "w-full py-3.5 px-4 bg-blue-600 hover:bg-blue-700 text-white font-extrabold rounded-xl text-xs sm:text-sm transition flex items-center justify-center space-x-2 shadow-lg cursor-pointer";
+if (status) {
+const loopTag = repeatMode === 'infinite' ? '∞ Loop' : `${completedCycles}/${repeatMode} Loop`;
+status.innerText = `Playing Track ${currentTrackIndex + 1}/${audioPlaylist.length} (${loopTag})`;
+}
+} else {
+if (refPlayText) refPlayText.innerText = "Listen to Master Reciter (Continuous Play)";
+if (refPlayIcon) refPlayIcon.className = "fa-solid fa-circle-play text-base";
+if (refPlayBtn) refPlayBtn.className = "w-full py-3.5 px-4 bg-emerald-700 hover:bg-emerald-800 text-white font-extrabold rounded-xl text-xs sm:text-sm transition flex items-center justify-center space-x-2 shadow-lg cursor-pointer";
+}
+}
 
 updateQuranPreviewText();
 
-// Recording Logic
 let mediaRecorder;
 let audioChunks = [];
 let isRecording = false;
 let secondsElapsed = 0;
-const MAX_SECONDS = 300;
 let timerInterval = null;
 
 function toggleRecording() {
@@ -849,229 +1384,198 @@ else stopRecording();
 }
 
 async function startRecording() {
-const teacher = document.getElementById('teacherSelect').value;
-if (!teacher) {
-alert("Please complete Section 1 (Full Name, Student ID, Grade, Section, and Teacher) to unlock recording.");
-return;
-}
-
 try {
 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
 mediaRecorder = new MediaRecorder(stream);
 audioChunks = [];
 
-mediaRecorder.ondataavailable = event => {
-if (event.data.size > 0) audioChunks.push(event.data);
-};
-
+mediaRecorder.ondataavailable = e => audioChunks.push(e.data);
 mediaRecorder.onstop = () => {
 const audioBlob = new Blob(audioChunks, { type: 'audio/webm' });
 const audioUrl = URL.createObjectURL(audioBlob);
-const player = document.getElementById('studentAudioPlayer');
-player.src = audioUrl;
+document.getElementById('studentAudioPlayer').src = audioUrl;
 document.getElementById('audioPlaybackContainer').classList.remove('hidden');
-
-const reader = new FileReader();
-reader.readAsDataURL(audioBlob);
-reader.onloadend = () => {
-recordedBase64Audio = reader.result.split(',')[1];
-};
 };
 
 mediaRecorder.start();
 isRecording = true;
 secondsElapsed = 0;
-updateRecordingUI(true);
+document.getElementById('recordingIndicator').classList.remove('hidden');
+document.getElementById('recordStatusText').innerText = "Stop";
 
 timerInterval = setInterval(() => {
 secondsElapsed++;
-updateTimerDisplay();
-if (secondsElapsed >= MAX_SECONDS) {
-stopRecording();
-alert("⏱️ 5-Minute Time Limit Reached! Recording automatically stopped and ready for review.");
-}
+const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
+const secs = String(secondsElapsed % 60).padStart(2, '0');
+document.getElementById('timerDisplay').innerText = `${mins}:${secs} / 05:00`;
+document.getElementById('recordingProgress').style.width = `${(secondsElapsed/300)*100}%`;
+if (secondsElapsed >= 300) stopRecording();
 }, 1000);
-
 } catch (err) {
-alert("Microphone access permission is required to record audio. " + err.message);
+alert("Microphone access required: " + err.message);
 }
 }
 
 function stopRecording() {
 if (mediaRecorder && mediaRecorder.state !== 'inactive') {
 mediaRecorder.stop();
-mediaRecorder.stream.getTracks().forEach(track => track.stop());
+mediaRecorder.stream.getTracks().forEach(t => t.stop());
 }
 isRecording = false;
 clearInterval(timerInterval);
-updateRecordingUI(false);
+document.getElementById('recordingIndicator').classList.add('hidden');
+document.getElementById('recordStatusText').innerText = "Record";
 }
 
-function updateTimerDisplay() {
-const mins = String(Math.floor(secondsElapsed / 60)).padStart(2, '0');
-const secs = String(secondsElapsed % 60).padStart(2, '0');
-document.getElementById('timerDisplay').innerText = `${mins}:${secs} / 05:00`;
-const progressPercent = (secondsElapsed / MAX_SECONDS) * 100;
-document.getElementById('recordingProgress').style.width = `${progressPercent}%`;
-}
-
-function updateRecordingUI(recording) {
-const recordBtn = document.getElementById('recordBtn');
-const recordIcon = document.getElementById('recordIcon');
-const statusText = document.getElementById('recordStatusText');
-const indicator = document.getElementById('recordingIndicator');
-
-if (recording) {
-recordBtn.className = "w-20 h-20 rounded-full bg-amber-600 hover:bg-amber-700 text-white flex flex-col items-center justify-center shadow-lg border-4 border-amber-300 animate-pulse cursor-pointer";
-recordIcon.className = "fa-solid fa-square text-2xl";
-statusText.innerText = "Stop";
-indicator.classList.remove('hidden');
-} else {
-recordBtn.className = "w-20 h-20 rounded-full bg-red-600 hover:bg-red-700 text-white flex flex-col items-center justify-center shadow-lg border-4 border-emerald-800 cursor-pointer";
-recordIcon.className = "fa-solid fa-microphone text-2xl";
-statusText.innerText = "Record";
-indicator.classList.add('hidden');
-}
-}
-
-async function handleFormSubmit(e) {
-e.preventDefault();
-
-const teacherName = document.getElementById('teacherSelect').value;
-if (!teacherName) {
-alert("Please fill all required fields in Section 1.");
-return;
-}
-
-if (!recordedBase64Audio && audioChunks.length === 0) {
+function submitRecitationToTeacher() {
+if (audioChunks.length === 0) {
 alert("Please record your recitation before submitting.");
 return;
 }
 
-const submitBtnText = document.getElementById('submitBtnText');
-submitBtnText.innerText = "🤖 AI Evaluating & Comparing against Master Qari...";
-
-const mode = document.querySelector('input[name="submissionMode"]:checked').value;
-const pageNum = document.getElementById('pageNumber').value;
-const startS = document.getElementById('startSurah').value;
-const startA = document.getElementById('startAyah').value;
-const endS = document.getElementById('endSurah').value;
-const endA = document.getElementById('endAyah').value;
-
-const assignmentDetails = mode === 'page'
-? `Page ${pageNum}`
-: `Surah ${startS}:${startA} to Surah ${endS}:${endA}`;
-
-const formData = {
-name: document.getElementById('studentName').value,
-studentName: document.getElementById('studentName').value,
-studentId: document.getElementById('studentId').value,
-grade: document.getElementById('gradeSelect').value,
-classSection: document.getElementById('classSelect').value,
-section: document.getElementById('classSelect').value,
-teacherName: teacherName,
-teacher: teacherName,
-mode: mode.toUpperCase(),
-submissionMode: mode.toUpperCase(),
-assignmentDetails: assignmentDetails,
-pageNumber: pageNum,
-startSurah: startS,
-startAyah: startA,
-endSurah: endS,
-endAyah: endA,
-reciter: document.getElementById('reciterSelect').value,
-audioBase64: recordedBase64Audio,
-expectedText: currentLoadedQuranText
+const submission = {
+id: "REC-" + Date.now(),
+studentId: activeUser.studentId,
+studentName: activeUser.name,
+grade: activeUser.grade,
+teacher: activeUser.teacher,
+level: activeUser.level,
+date: new Date().toLocaleDateString(),
+audioUrl: document.getElementById('studentAudioPlayer').src,
+status: "Needs Review",
+evaluation: null
 };
 
-const vercelApiUrl = window.location.origin + "/api/evaluate";
+studentSubmissions.unshift(submission);
 
-if (typeof google !== 'undefined' && google.script && google.script.run) {
-google.script.run
-.withSuccessHandler(onAISuccess)
-.withFailureHandler(onAIFailure)
-.processFormWithAITeacher(formData);
-} else {
-try {
-const response = await fetch(vercelApiUrl, {
-method: 'POST',
-headers: { 'Content-Type': 'application/json' },
-body: JSON.stringify(formData)
-});
+const tipsPanel = document.getElementById('tajweedTipsPanel');
+const tipsList = document.getElementById('tajweedTipsList');
+const tips = TAJWEED_TIPS_LIBRARY[activeUser.level] || TAJWEED_TIPS_LIBRARY['Intermediate'];
 
-if (response.ok) {
-const resultData = await response.json();
-if (resultData && resultData.data) {
-onAISuccess(resultData.data);
+tipsList.innerHTML = tips.map(t => `
+<div class="bg-slate-800 p-3.5 rounded-xl border border-slate-700">
+<h4 class="font-bold text-xs text-blue-300">${t.title}</h4>
+<p class="text-xs text-slate-300 mt-1 leading-relaxed">${t.tip}</p>
+</div>
+`).join('');
+
+tipsPanel.classList.remove('hidden');
+tipsPanel.scrollIntoView({ behavior: 'smooth' });
+
+alert(`✅ Recitation Submitted! Sent to ${activeUser.teacher}. Check the Tajweed Reference Tips below.`);
+}
+
+function renderLearnerHistory() {
+const container = document.getElementById('historyListContainer');
+if (studentSubmissions.length === 0) {
+container.innerHTML = `<div class="p-8 bg-slate-900 text-slate-400 text-center rounded-2xl border border-slate-800 text-xs">No recitations submitted yet. Switch to Learner Practice to record your first attempt.</div>`;
 return;
 }
-}
-} catch (vErr) {
-console.log("Vercel endpoint note:", vErr);
+
+container.innerHTML = studentSubmissions.map(s => `
+<div class="bg-slate-900 text-white p-5 rounded-2xl border border-slate-800 space-y-3">
+<div class="flex items-center justify-between border-b border-slate-800 pb-2">
+<div>
+<h4 class="font-extrabold text-sm text-emerald-400">Recitation Attempt (${s.date})</h4>
+<p class="text-xs text-slate-400">Submitted to Teacher: ${s.teacher}</p>
+</div>
+<span class="text-xs px-2.5 py-1 ${s.status === 'Evaluated' ? 'bg-emerald-950 text-emerald-300 border border-emerald-600' : 'bg-blue-950 text-blue-300 border border-blue-500'} rounded-full font-bold">${s.status}</span>
+</div>
+
+<audio src="${s.audioUrl}" controls class="w-full h-9 rounded-lg"></audio>
+
+${s.evaluation ? `
+<div class="bg-slate-950 p-4 rounded-xl border border-slate-800 space-y-2 text-xs">
+<div class="flex items-center justify-between">
+<strong class="text-blue-400 font-bold">Teacher Evaluation Score: ${s.evaluation.score}%</strong>
+</div>
+<div class="text-emerald-300">🟢 You Did Well: ${s.evaluation.green}</div>
+<div class="text-blue-300">🟡 Practice These: ${s.evaluation.yellow}</div>
+<div class="text-rose-300">🔴 Needs Attention: ${s.evaluation.red}</div>
+</div>
+` : `<p class="text-xs text-slate-400 italic"><i class="fa-solid fa-clock mr-1"></i> Awaiting teacher evaluation & voice feedback...</p>`}
+</div>
+`).join('');
 }
 
-// Smart Local Fallback Simulation:
-// Detects short test recordings (e.g. "test test" under 6 seconds) vs full recitation
-setTimeout(() => {
-const isShortTestAudio = secondsElapsed < 6;
-if (isShortTestAudio) {
-onAISuccess({
-status: "SUCCESS",
-score: 20,
-memorizationStatus: "❌ Invalid Recitation: Non-Quranic talking ('test test') detected.",
-studentStrengths: "• None detected (Audio contained test talking instead of Quranic recitation).",
-recitationMistakes: "⚠️ CRITICAL RECITATION ERROR DETECTED:\n- Student did not recite the assigned Arabic Quranic text.\n- Speech detected: English talking / audio test ('test test').\n- Corrective Action: Please recite the Uthmani text shown on screen clearly into the microphone.",
-qariComparison: "• Cannot compare non-Quranic talking against Master Qari benchmark.",
-emailStatus: "Local Demo Mode: On Vercel, live Gemini 1.5 Flash API evaluates audio dynamically."
-});
+function renderTeacherInbox() {
+const container = document.getElementById('teacherInboxList');
+if (studentSubmissions.length === 0) {
+container.innerHTML = `<div class="p-6 bg-emerald-50 dark:bg-slate-800 text-gray-500 text-center rounded-xl text-xs">No pending student recitations in inbox.</div>`;
+return;
+}
+
+container.innerHTML = studentSubmissions.map((s, idx) => `
+<div class="p-5 bg-emerald-50/50 dark:bg-slate-800/80 rounded-2xl border border-emerald-200 dark:border-slate-700 space-y-3">
+<div class="flex items-center justify-between">
+<div>
+<h4 class="font-extrabold text-sm text-emerald-950 dark:text-emerald-300">${s.studentName} (${s.studentId})</h4>
+<p class="text-xs text-gray-600 dark:text-gray-400">${s.grade} | Level: ${s.level} | ${s.date}</p>
+</div>
+<span class="text-xs px-2.5 py-0.5 bg-blue-600 text-white font-bold rounded-full">${s.status}</span>
+</div>
+
+<audio src="${s.audioUrl}" controls class="w-full h-9 rounded-lg"></audio>
+
+<div class="bg-white dark:bg-slate-900 p-4 rounded-xl border border-emerald-200 dark:border-slate-800 space-y-3 text-xs">
+<h5 class="font-bold text-emerald-800 dark:text-emerald-400">Teacher Evaluation Input</h5>
+<div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
+<input type="text" id="green_${idx}" placeholder="🟢 Green (You Did Well)" class="p-2 border border-emerald-300 dark:border-slate-700 rounded-lg dark:bg-slate-950 dark:text-white">
+<input type="text" id="yellow_${idx}" placeholder="🟡 Yellow (Practice These)" class="p-2 border border-blue-300 dark:border-slate-700 rounded-lg dark:bg-slate-950 dark:text-white">
+<input type="text" id="red_${idx}" placeholder="🔴 Red (Needs Attention)" class="p-2 border border-rose-300 dark:border-slate-700 rounded-lg dark:bg-slate-950 dark:text-white">
+</div>
+<div class="flex items-center gap-2">
+<input type="number" id="score_${idx}" min="0" max="100" placeholder="Teacher Score %" class="w-32 p-2 border border-emerald-300 dark:border-slate-700 rounded-lg dark:bg-slate-950 dark:text-white font-bold">
+<button type="button" onclick="evaluateSubmission(${idx})" class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold rounded-lg shadow cursor-pointer">Save & Send Teacher Evaluation</button>
+</div>
+</div>
+</div>
+`).join('');
+}
+
+function evaluateSubmission(idx) {
+const sub = studentSubmissions[idx];
+const green = document.getElementById(`green_${idx}`).value || "Good effort";
+const yellow = document.getElementById(`yellow_${idx}`).value || "Keep practicing";
+const red = document.getElementById(`red_${idx}`).value || "None";
+const score = document.getElementById(`score_${idx}`).value || 90;
+
+sub.status = "Evaluated";
+sub.evaluation = { score: score, green: green, yellow: yellow, red: red };
+
+alert(`✅ Teacher Evaluation saved for ${sub.studentName}!`);
+renderTeacherInbox();
+}
+
+function renderAdminTable() {
+const tbody = document.getElementById('adminLearnerTable');
+tbody.innerHTML = PRELOADED_LEARNERS.map(l => `
+<tr class="hover:bg-slate-800/50">
+<td class="p-3 font-mono font-bold text-blue-300">${l.studentId}</td>
+<td class="p-3 font-semibold">${l.name}</td>
+<td class="p-3">${l.grade} (${l.section})</td>
+<td class="p-3">${l.quranGroup}</td>
+<td class="p-3">${l.teacher}</td>
+<td class="p-3"><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${l.status === 'Active' ? 'bg-emerald-950 text-emerald-300 border border-emerald-600' : 'bg-slate-800 text-slate-400'}">${l.status}</span></td>
+<td class="p-3"><button type="button" onclick="alert('Temporary password reset token sent for ${l.studentId}')" class="px-2 py-1 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded text-[10px] cursor-pointer">Reset Password</button>
+</td>
+</tr>
+`).join('');
+}
+
+function filterStaffTeachers() {
+const gender = document.getElementById('staffGenderSelect').value;
+const select = document.getElementById('staffTeacherSelect');
+select.innerHTML = "";
+
+if (gender === 'male') {
+select.add(new Option("O. Koulibaly (Male Teacher)", "O. Koulibaly"));
+select.add(new Option("O. Gueye (Male Teacher)", "O. Gueye"));
+select.add(new Option("O. Fall (Male Teacher)", "O. Fall"));
 } else {
-onAISuccess({
-status: "SUCCESS",
-score: 92,
-memorizationStatus: "✅ Memorization Accuracy Checked (98%).",
-studentStrengths: "• Excellent Madd Asli duration (held for 2 full counts).\n• Clear Ghunnah nasalization on Noon Shaddah.\n• Good confidence and clear pronunciation of throat letter (ح).",
-recitationMistakes: "• Minor Mistake: Watch Madd Munfasil duration on Ayah 2 (elongate to 4 counts).\n• Correction: Ensure full nasalization on Ghunnah letters before pausing.",
-qariComparison: "• Recitation pace matches Sheikh Al-Husary's Tarteel speed (92% rhythm alignment).\n• Excellent match on pause placement (Waqf).",
-emailStatus: "Local Demo Mode: To send real email attachments to " + teacherName + ", deploy to Vercel."
-});
-}
-}, 1200);
+select.add(new Option("O. Mme Ba (Female Teacher)", "O. Mme Ba"));
 }
 }
-
-function onAISuccess(response) {
-document.getElementById('submitBtnText').innerText = "Submit Recording to Teacher & AI";
-const panel = document.getElementById('aiTeacherResultPanel');
-
-const score = response.score !== undefined ? response.score : 90;
-document.getElementById('aiScoreBadge').innerText = score + "%";
-
-const badge = document.getElementById('aiScoreBadge');
-if (score < 60) {
-badge.className = "text-3xl font-black text-rose-500";
-} else if (score < 85) {
-badge.className = "text-3xl font-black text-amber-400";
-} else {
-badge.className = "text-3xl font-black text-emerald-400";
-}
-
-document.getElementById('aiMemorizationStatus').innerText = response.memorizationStatus || "Successfully evaluated.";
-document.getElementById('aiStudentStrengths').innerText = response.studentStrengths || "• Good effort and clear pronunciation.";
-document.getElementById('aiRecitationMistakes').innerText = response.recitationMistakes || "• No major mistakes detected in this recitation.";
-document.getElementById('aiQariComparison').innerText = response.qariComparison || "• Good alignment with reference Qari.";
-document.getElementById('emailDispatchNotice').innerText = response.emailStatus || "Audio emailed to assigned teacher";
-
-panel.classList.remove('hidden');
-panel.scrollIntoView({ behavior: 'smooth' });
-}
-
-function onAIFailure(error) {
-document.getElementById('submitBtnText').innerText = "Submit Recording to Teacher & AI";
-alert("Submission failed: " + (error.message || error));
-}
-
-// Initial validation run on page load
-validateSection1();
 </script>
 </body>
 </html>
