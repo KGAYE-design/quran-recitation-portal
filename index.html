@@ -83,8 +83,9 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 </button>
 </div>
 
-<!-- TOP CONTROLS TOOLBAR (ORGANIZED IN A SINGLE UNIFORM ROW) -->
-<div class="flex items-center space-x-2 shrink-0 overflow-x-auto no-scrollbar py-1">
+<!-- TOP CONTROLS TOOLBAR & NEED HELP BUTTON ROW BELOW -->
+<div class="flex flex-col items-end space-y-2 shrink-0">
+<div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1">
 <!-- ROYAL SAPPHIRE BLUE LOGIN BUTTON -->
 <button type="button" onclick="openRoleSelectionModal()" id="btnPracticeCTA" class="px-3.5 py-2 rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-extrabold text-xs shadow-md transition transform active:scale-95 flex items-center space-x-1.5 cursor-pointer border border-blue-400 shrink-0">
 <i class="fa-solid fa-right-to-bracket text-xs text-white"></i>
@@ -109,12 +110,15 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <i id="themeIcon" class="fa-solid fa-moon text-amber-300"></i>
 <span id="themeText">Dark Mode</span>
 </button>
+</div>
 
-<!-- NEED HELP BUTTON (DIRECT TO SUPER ADMIN) -->
-<button type="button" onclick="openNeedHelpModal()" id="btnNeedHelp" class="px-3.5 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition flex items-center space-x-1.5 cursor-pointer border border-amber-300 transform active:scale-95 shrink-0">
+<!-- ROW BELOW: NEED HELP BUTTON (DIRECT TO SUPER ADMIN) -->
+<div class="flex items-center justify-end w-full pt-0.5">
+<button type="button" onclick="openNeedHelpModal()" id="btnNeedHelp" class="px-4 py-2 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-black text-xs shadow-md transition flex items-center space-x-1.5 cursor-pointer border border-amber-300 transform active:scale-95 shrink-0">
 <i class="fa-solid fa-circle-question text-slate-950 text-xs"></i>
 <span>Need Help?</span>
 </button>
+</div>
 </div>
 </div>
 
@@ -592,7 +596,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <h2 id="teacherDashboardName" class="text-xl font-extrabold text-emerald-400">Ustaz Ismaïl Koulibaly's Teacher Studio</h2>
 <span id="teacherGenderBadge" class="text-[10px] px-2.5 py-0.5 bg-blue-600 text-white font-extrabold rounded-full uppercase">👨 Male Teacher</span>
 </div>
-<p id="teacherEmailBadge" class="text-xs text-slate-300 font-mono font-semibold">koulibaly.ismail@gmail.com</p>
+<p id="teacherEmailBadge" class="text-xs text-slate-300 font-semibold"><i class="fa-solid fa-chalkboard-user mr-1 text-emerald-400"></i>IQRA Quran Faculty Member</p>
 </div>
 </div>
 
@@ -878,7 +882,7 @@ body { font-family: 'Plus Jakarta Sans', sans-serif; transition: background-colo
 <h2 id="dedicatedTeacherNameTitle" class="text-2xl font-extrabold text-white">Ustaz Ismaïl Koulibaly</h2>
 <span id="dedicatedTeacherGenderTag" class="text-[10px] px-3 py-0.5 bg-blue-600 text-white font-extrabold rounded-full uppercase">👨 Male Teacher</span>
 </div>
-<p id="dedicatedTeacherEmailTag" class="text-xs text-emerald-200 font-mono font-semibold">koulibaly.ismail@gmail.com</p>
+<p id="dedicatedTeacherEmailTag" class="text-xs text-emerald-200 font-semibold"><i class="fa-solid fa-chalkboard-user mr-1 text-emerald-300"></i>IQRA Quran Faculty Member</p>
 </div>
 </div>
 </div>
@@ -2639,6 +2643,12 @@ if (btn) btn.className = "px-3 py-2 rounded-xl bg-emerald-950/90 hover:bg-emeral
 }
 
 function switchTab(tabId) {
+// STRICT STUDENT BACKEND ACCESS RESTRICTION
+if (userRole === 'student' && (tabId === 'adminDashboard' || tabId === 'teacherStudio')) {
+alert("🔒 Access Restricted: Student accounts do not have access to backend or faculty management pages.");
+return;
+}
+
 currentTab = tabId;
 const tabs = ['publicPlayer', 'learnerStudio', 'learnerHistory', 'teacherStudio', 'staffStudio', 'adminDashboard', 'messagingCenter'];
 
@@ -2700,7 +2710,7 @@ if (!select) return;
 
 select.innerHTML = "";
 TEACHERS_ROSTER.forEach(t => {
-select.add(new Option(`${t.name} (${t.email})`, t.name));
+select.add(new Option(t.name, t.name));
 });
 }
 
@@ -2732,7 +2742,7 @@ return `
 <img src="${t.avatar}" alt="Teacher Logo" class="w-8 h-8 rounded-full border border-amber-400 bg-white object-contain p-0.5 shrink-0">
 <div>
 <h4 class="font-extrabold text-xs text-slate-900 dark:text-white group-hover:text-emerald-600 dark:group-hover:text-emerald-300 transition-colors">${t.name}</h4>
-<span class="text-[10px] font-mono text-blue-600 dark:text-blue-300 font-semibold truncate block max-w-[150px]">${t.email}</span>
+<span class="text-[10px] text-emerald-600 dark:text-emerald-400 font-bold block">IQRA Quran Faculty</span>
 </div>
 </div>
 <span class="text-[9px] px-2 py-0.5 ${t.gender === 'male' ? 'bg-blue-600 text-white' : 'bg-purple-600 text-white'} font-extrabold rounded-full uppercase shrink-0">${t.gender === 'male' ? 'Ustaz' : 'Ustaza'}</span>
@@ -2751,8 +2761,45 @@ return `
 `;
 }
 
+// OPEN READ-ONLY TEACHER INFO PROFILE MODAL (FOR STUDENTS & PUBLIC AUDIENCE)
+function openTeacherInfoModal(teacherName) {
+const found = TEACHERS_ROSTER.find(t => t.name.includes(teacherName) || teacherName.includes(t.name)) || TEACHERS_ROSTER[0];
+if (!found) return;
+
+const avatarEl = document.getElementById('infoTeacherAvatar');
+const nameEl = document.getElementById('infoTeacherName');
+const titleEl = document.getElementById('infoTeacherTitle');
+const gradesEl = document.getElementById('infoTeacherGrades');
+
+if (avatarEl) avatarEl.src = found.avatar || 'iqra_logo.png';
+if (nameEl) nameEl.innerText = found.name;
+if (titleEl) titleEl.innerText = found.gender === 'male' ? '👨 Ustaz — Certified Tajweed Instructor' : '👩 Ustaza — Certified Tajweed Instructor';
+if (gradesEl) gradesEl.innerText = found.grades.join(', ');
+
+const modal = document.getElementById('teacherInfoModal');
+if (modal) modal.classList.remove('hidden');
+}
+
+function closeTeacherInfoModal() {
+const modal = document.getElementById('teacherInfoModal');
+if (modal) modal.classList.add('hidden');
+}
+
+function inspectTeacherStudio(teacherName) {
+if (userRole === 'student') {
+openTeacherInfoModal(teacherName);
+return;
+}
+openTeacherPage(teacherName);
+}
+
 // OPEN TEACHER DEDICATED PAGE & DISPLAY TAUGHT GRADES & ASSIGNED STUDENTS & FEEDBACK RECORDINGS
 function openTeacherPage(teacherName) {
+if (userRole === 'student') {
+openTeacherInfoModal(teacherName);
+return;
+}
+
 const found = TEACHERS_ROSTER.find(t => t.name.includes(teacherName) || teacherName.includes(t.name));
 if (!found) return;
 
@@ -2771,7 +2818,7 @@ break;
 
 // Update Header Banner
 document.getElementById('teacherDashboardName').innerText = `${activeTeacher.name}'s Teacher Studio & Page`;
-document.getElementById('teacherEmailBadge').innerText = activeTeacher.email;
+document.getElementById('teacherEmailBadge').innerText = "IQRA Quran Faculty Member";
 document.getElementById('teacherGenderBadge').innerText = activeTeacher.gender === 'male' ? "👨 Male Quran Teacher (Ustaz)" : "👩 Female Quran Teacher (Ustaza)";
 document.getElementById('teacherGenderBadge').className = `text-[10px] px-2.5 py-0.5 ${activeTeacher.gender === 'male' ? 'bg-blue-600' : 'bg-purple-600'} text-white font-extrabold rounded-full uppercase`;
 
@@ -2857,7 +2904,16 @@ if (!grid) return;
 
 const filtered = gradeName === 'All' 
 ? PRELOADED_LEARNERS 
-: PRELOADED_LEARNERS.filter(l => l.grade === gradeName);
+: PRELOADED_LEARNERS.filter(l => {
+    const targetGrade = gradeName.toLowerCase();
+    const studentGrade = l.grade.toLowerCase();
+    
+    // Normalize grade names e.g. "Grade 12" matches "12TH-A", "Grade 11" matches "11TH-B"
+    const targetNum = targetGrade.replace('grade ', '').trim();
+    const studentNum = studentGrade.replace('grade ', '').replace('th', '').split('-')[0].trim();
+
+    return studentGrade === targetGrade || studentGrade.includes(targetGrade) || targetGrade.includes(studentGrade) || (targetNum && studentNum === targetNum);
+  });
 
 if (badge) badge.innerText = `Showing ${filtered.length} Student${filtered.length === 1 ? '' : 's'} in ${gradeName === 'All' ? 'All Grades' : gradeName}`;
 
